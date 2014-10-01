@@ -12,5 +12,18 @@
  */
 
 return [
-    // ...
+    'db' =>
+        [
+            'driver' => 'Pdo',
+            'dsn' => 'mysql:dbname=zfmur;host=localhost',
+            'username' => 'root',
+            'password' => ''
+        ],
+    'service_manager' =>
+        [
+            'factories' =>
+                [
+                    'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
+                ],
+        ],
 ];

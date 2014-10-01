@@ -13,20 +13,6 @@ return [
         [
             'routes' =>
                 [
-                    'home' =>
-                        [
-                            'type' => 'Zend\Mvc\Router\Http\Literal',
-                            'options' =>
-                                [
-                                    'route' => '/',
-                                    'defaults' =>
-                                        [
-                                            'controller' => 'Mur\Controller\User',
-                                            'action' => 'index',
-                                        ],
-                                ],
-                        ],
-
                     'mur' =>
                         [
                             'type' => 'Zend\Mvc\Router\Http\Literal',
@@ -41,22 +27,41 @@ return [
                                         ],
 
                                 ],
-                        ],
-                    'may_terminate' => true,
-                    'child_routes' => [
-                        'default' => [
-                            'type'    => 'Segment',
-                            'options' => [
-                                'route'    => '/[:controller[/:action]]',
-                                'constraints' => [
-                                    'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                    'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            'may_terminate' => true,
+                            'child_routes' =>
+                                [
+                                    'default' =>
+                                        [
+                                            'type' => 'Segment',
+                                            'options' =>
+                                                [
+                                                    'route' => '/[:controller[/:action]]',
+                                                    'constraints' =>
+                                                        [
+                                                            'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                            'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                        ],
+                                                    'defaults' =>
+                                                        [
+                                                        ],
+                                                ],
+                                        ],
                                 ],
-                                'defaults' => [
-                                ],
-                            ],
                         ],
-                    ],
+
+                    'home' =>
+                        [
+                            'type' => 'Zend\Mvc\Router\Http\Literal',
+                            'options' =>
+                                [
+                                    'route' => '/',
+                                    'defaults' =>
+                                        [
+                                            'controller' => 'Mur\Controller\User',
+                                            'action' => 'index',
+                                        ],
+                                ],
+                        ],
 
                 ],
         ],
@@ -65,6 +70,7 @@ return [
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
         ],
+
         'aliases' => [
             'translator' => 'MvcTranslator',
         ],

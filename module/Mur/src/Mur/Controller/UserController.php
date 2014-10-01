@@ -8,17 +8,28 @@
 
 namespace Mur\Controller;
 
+use Zend\Db\TableGateway\TableGateway;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class UserController extends AbstractActionController
 {
+
+    protected $usersTable;
+
     /**
      * @return ViewModel
      */
     public function indexAction()
     {
-        return new ViewModel();
+        $users = $this->getUsersTable()->select();
+        return new ViewModel(
+            [
+                'users' => $users
+            ]
+        );
     }
 
     public function createAction()
@@ -34,5 +45,20 @@ class UserController extends AbstractActionController
     public function deleteAction()
     {
         return new ViewModel();
+    }
+
+    public function getUsersTable()
+    {
+        if(!$this->usersTable){
+
+            $adapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+
+            $this->usersTable = new TableGateway(
+                'users',
+                $adapter
+            );
+        }
+
+        return $this->usersTable;
     }
 } 
