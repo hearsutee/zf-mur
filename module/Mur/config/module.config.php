@@ -42,6 +42,21 @@ return [
 
                                 ],
                         ],
+                    'may_terminate' => true,
+                    'child_routes' => [
+                        'default' => [
+                            'type'    => 'Segment',
+                            'options' => [
+                                'route'    => '/[:controller[/:action]]',
+                                'constraints' => [
+                                    'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                ],
+                                'defaults' => [
+                                ],
+                            ],
+                        ],
+                    ],
 
                 ],
         ],

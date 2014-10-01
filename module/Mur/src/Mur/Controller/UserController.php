@@ -23,16 +23,16 @@ class UserController extends AbstractActionController
 
     public function createAction()
     {
-
+        return new ViewModel();
     }
 
     public function updateAction()
     {
-
+        return new ViewModel();
     }
 
     public function deleteAction()
     {
-
+        return new ViewModel();
     }
 } 
