@@ -15,12 +15,12 @@ return
             [
                 'routes' =>
                     [
-                        'mur' =>
+                        'user' =>
                             [
                                 'type' => 'Zend\Mvc\Router\Http\Literal',
                                 'options' =>
                                     [
-                                        'route' => '/mur',
+                                        'route' => '/user',
                                         'defaults' =>
                                             [
                                                 '__NAMESPACE__' => 'Mur\Controller',
@@ -37,10 +37,45 @@ return
                                                 'type' => 'Segment',
                                                 'options' =>
                                                     [
-                                                        'route' => '/[:controller[/:action]]',
+                                                        'route' => '[/:action]',
                                                         'constraints' =>
                                                             [
-                                                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+//                                                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                            ],
+                                                        'defaults' =>
+                                                            [
+                                                            ],
+                                                    ],
+                                            ],
+                                    ],
+                            ],
+                        'message' =>
+                            [
+                                'type' => 'Zend\Mvc\Router\Http\Literal',
+                                'options' =>
+                                    [
+                                        'route' => '/message',
+                                        'defaults' =>
+                                            [
+                                                '__NAMESPACE__' => 'Mur\Controller',
+                                                'controller' => 'Message',
+                                                'action' => 'index',
+                                            ],
+
+                                    ],
+                                'may_terminate' => true,
+                                'child_routes' =>
+                                    [
+                                        'default' =>
+                                            [
+                                                'type' => 'Segment',
+                                                'options' =>
+                                                    [
+                                                        'route' => '[/:action]',
+                                                        'constraints' =>
+                                                            [
+//                                                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                                                 'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                                             ],
                                                         'defaults' =>
@@ -134,10 +169,14 @@ return
                             ],
                         'orm_default' =>
                             [
-                                'drivers' =>
-                                    [
-                                        'Mur\Entity' => 'mur_entities'
-                                    ]
+                                'object_manager' => 'Doctrine\ORM\EntityManager',
+                                'identity_class' => 'Mur\Entity\User',
+                                'identity_property' => 'userName',
+                                'credential_property' => 'password',
+//                                'drivers' =>
+//                                    [
+//                                        'Mur\Entity' => 'mur_entities'
+//                                    ]
                             ]
                     ]
             ],

@@ -36,7 +36,14 @@ class UserController extends AbstractActionController
 
     public function createAction()
     {
-        return new ViewModel();
+        $sm = $this->getServiceLocator();
+        $form = $sm->get('FormElementManager')->get('Mur\Form\UserForm');
+
+        return new ViewModel(
+            [
+                'form' => $form
+            ]
+        );
     }
 
     public function updateAction()

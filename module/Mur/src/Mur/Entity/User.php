@@ -32,6 +32,8 @@ class User extends ModelAbstract implements InputFilterAwareInterface
      */
     private $userName;
 
+    private $password;
+
     /**
      * @var boolean
      *

@@ -9,14 +9,18 @@
 
 namespace Mur;
 
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\ModuleManager\Feature\FormElementProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
-class Module
+class Module implements
+    FormElementProviderInterface,
+    AutoloaderProviderInterface
 {
     public function onBootstrap(MvcEvent $e)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
     }
@@ -29,11 +33,38 @@ class Module
     public function getAutoloaderConfig()
     {
         return [
-            'Zend\Loader\StandardAutoloader' => [
-                'namespaces' => [
-                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+            'Zend\Loader\StandardAutoloader' =>
+                [
+                    'namespaces' =>
+                        [
+                            __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                        ],
                 ],
-            ],
+        ];
+    }
+
+    public function getFormElementConfig()
+    {
+        return [
+            'invokables' =>
+                [
+                    'mur.user.form' => 'Mur\Form\UserForm',
+                    'mur.message.form' => 'Mur\Form\MessageForm'
+                ]
+        ];
+    }
+
+    public function getServiceConfig()
+    {
+        return [
+            'factories' =>
+                [
+                    'Zend\Authentication\AuthenticationService' => function ($serviceManager) {
+
+                        return $serviceManager->get('doctrine.authenticationservice.orm_default');
+
+                    }
+                ]
         ];
     }
 }

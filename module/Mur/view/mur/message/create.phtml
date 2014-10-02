@@ -1,4 +1,4 @@
-<h1>create  !</h1>
+<h1>create message  !</h1>
 
 <?php
 
@@ -9,7 +9,7 @@ $form->prepare();
 
 echo $this->form()->openTag($form);
 
-echo $this->formRow($form->get('userName'));
-echo $this->formRow($form->get('isAdmin'));
+echo $this->formTextarea($form->get('content'));
+
 echo $this->formSubmit($form->get('submit'));
 echo $this->form()->closeTag();

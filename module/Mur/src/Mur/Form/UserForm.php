@@ -1,5 +1,5 @@
 <?php
-namespace User\Form;
+namespace Mur\Form;
 
 use Zend\Form\Form;
 
@@ -31,6 +31,7 @@ class UserForm extends Form
                 'label' => 'is admin ?',
             ],
         ]);
+
         $this->add([
             'name' => 'submit',
             'attributes' => [
