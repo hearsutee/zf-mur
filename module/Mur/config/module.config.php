@@ -169,14 +169,14 @@ return
                             ],
                         'orm_default' =>
                             [
-                                'object_manager' => 'Doctrine\ORM\EntityManager',
-                                'identity_class' => 'Mur\Entity\User',
-                                'identity_property' => 'userName',
-                                'credential_property' => 'password',
-//                                'drivers' =>
-//                                    [
-//                                        'Mur\Entity' => 'mur_entities'
-//                                    ]
+//                                'object_manager' => 'Doctrine\ORM\EntityManager',
+//                                'identity_class' => 'Mur\Entity\User',
+//                                'identity_property' => 'userName',
+//                                'credential_property' => 'password',
+                                'drivers' =>
+                                    [
+                                        'Mur\Entity' => 'mur_entities'
+                                    ]
                             ]
                     ]
             ],

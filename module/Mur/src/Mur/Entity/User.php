@@ -15,7 +15,6 @@ use Zend\InputFilter\InputFilterInterface;
 class User extends ModelAbstract implements InputFilterAwareInterface
 {
 
-
     /**
      * @var integer
      *
@@ -44,29 +43,28 @@ class User extends ModelAbstract implements InputFilterAwareInterface
 
     protected $inputFilter;
 
-    /**
-     * Set userName
-     *
-     * @param string $userName
-     * @return User
-     */
-    public function setUserName($userName)
-    {
-        $this->userName = $userName;
 
-        return $this;
+    //=======GETTERS/SETTERS=======\\
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
-     * Get userName
+     * Get isAdmin
      *
-     * @return string
+     * @return boolean
      */
-    public function getUserName()
+    public function getIsAdmin()
     {
-        return $this->userName;
+        return $this->isAdmin;
     }
-
 
     /**
      * Set isAdmin
@@ -82,25 +80,29 @@ class User extends ModelAbstract implements InputFilterAwareInterface
     }
 
     /**
-     * Get isAdmin
+     * Get userName
      *
-     * @return boolean
+     * @return string
      */
-    public function getIsAdmin()
+    public function getUserName()
     {
-        return $this->isAdmin;
+        return $this->userName;
     }
 
     /**
-     * Get id
+     * Set userName
      *
-     * @return integer
+     * @param string $userName
+     * @return User
      */
-    public function getId()
+    public function setUserName($userName)
     {
-        return $this->id;
+        $this->userName = $userName;
+
+        return $this;
     }
 
+    //======InputFilter=======\\
 
     /**
      * Set input filter

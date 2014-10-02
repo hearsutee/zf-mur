@@ -4,6 +4,8 @@ namespace Mur\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterInterface;
 
 
 /**
@@ -12,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="message", indexes={@ORM\Index(name="id_user", columns={"user"})})
  * @ORM\Entity
  */
-class Message extends ModelAbstract
+class Message extends ModelAbstract implements InputFilterAwareInterface
 {
     /**
      * @var integer
@@ -48,52 +50,26 @@ class Message extends ModelAbstract
     private $user;
 
 
-
-    /**
-     * Convert the object to an array.
-     *
-     * @return array
-     */
-    public function getArrayCopy()
-    {
-        return get_object_vars($this);
-    }
-
-
-
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return Message
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-
-        return $this;
-    }
-
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime 
-     */
-    public function getDateCreation()
-    {
-        return $this->dateCreation;
-    }
-
-   
+    //=======GETTERS/SETTERS=======\\
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
     }
 
     /**
@@ -110,13 +86,26 @@ class Message extends ModelAbstract
     }
 
     /**
-     * Get content
+     * Get dateCreation
      *
-     * @return string 
+     * @return \DateTime
      */
-    public function getContent()
+    public function getDateCreation()
     {
-        return $this->content;
+        return $this->dateCreation;
+    }
+
+    /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     * @return Message
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
     }
 
     /**
@@ -135,10 +124,35 @@ class Message extends ModelAbstract
     /**
      * Get user
      *
-     * @return \Mur\Entity\User 
+     * @return \Mur\Entity\User
      */
     public function getUser()
     {
         return $this->user;
     }
+
+    //======InputFilter=======\\
+
+    /**
+     * Set input filter
+     *
+     * @param  InputFilterInterface $inputFilter
+     * @return InputFilterAwareInterface
+     */
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        // TODO: Implement setInputFilter() method.
+    }
+
+    /**
+     * Retrieve input filter
+     *
+     * @return InputFilterInterface
+     */
+    public function getInputFilter()
+    {
+        // TODO: Implement getInputFilter() method.
+    }
+
+
 }
