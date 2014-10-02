@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
  * @ORM\Table(name="user")
  * @ORM\Entity
  */
-class User  implements InputFilterAwareInterface
+class User extends ModelAbstract implements InputFilterAwareInterface
 {
 
 
@@ -52,17 +52,6 @@ protected $inputFilter;
         return get_object_vars($this);
     }
 
-    /**
-     * Populate from an array.
-     *
-     * @param array $data
-     */
-    public function exchangeArray($data = [])
-    {
-        $this->id = $data['id'];
-        $this->userName = $data['userName'];
-        $this->isAdmin = $data['isAdmin'];
-    }
 
     /**
      * Set isAdmin
@@ -141,28 +130,4 @@ protected $inputFilter;
         // TODO: Implement getInputFilter() method.
     }
 
-
-
-    /**
-     * Set userName
-     *
-     * @param string $userName
-     * @return User
-     */
-    public function setUserName($userName)
-    {
-        $this->userName = $userName;
-
-        return $this;
-    }
-
-    /**
-     * Get userName
-     *
-     * @return string 
-     */
-    public function getUserName()
-    {
-        return $this->userName;
-    }
 }
