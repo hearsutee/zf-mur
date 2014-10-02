@@ -39,17 +39,29 @@ class User extends ModelAbstract implements InputFilterAwareInterface
      */
     private $isAdmin;
 
-protected $inputFilter;
-   
+    protected $inputFilter;
 
     /**
-     * Convert the object to an array.
+     * Set userName
      *
-     * @return array
+     * @param string $userName
+     * @return User
      */
-    public function getArrayCopy()
+    public function setUserName($userName)
     {
-        return get_object_vars($this);
+        $this->userName = $userName;
+
+        return $this;
+    }
+
+    /**
+     * Get userName
+     *
+     * @return string
+     */
+    public function getUserName()
+    {
+        return $this->userName;
     }
 
 
@@ -69,7 +81,7 @@ protected $inputFilter;
     /**
      * Get isAdmin
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsAdmin()
     {
@@ -79,7 +91,7 @@ protected $inputFilter;
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -87,26 +99,13 @@ protected $inputFilter;
     }
 
     /**
-     * Set username
+     * Convert the object to an array.
      *
-     * @param string $username
-     * @return User
+     * @return array
      */
-    public function setUsername($username)
+    public function getArrayCopy()
     {
-        $this->userName = $username;
-
-        return $this;
-    }
-
-    /**
-     * Get username
-     *
-     * @return string 
-     */
-    public function getUsername()
-    {
-        return $this->userName;
+        return get_object_vars($this);
     }
 
     /**
@@ -129,5 +128,6 @@ protected $inputFilter;
     {
         // TODO: Implement getInputFilter() method.
     }
+
 
 }
