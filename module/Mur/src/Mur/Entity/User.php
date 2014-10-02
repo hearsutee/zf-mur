@@ -3,6 +3,8 @@
 namespace Mur\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterInterface;
 
 /**
  * User
@@ -10,8 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  * @ORM\Entity
  */
-class User
+class User  implements InputFilterAwareInterface
 {
+
+
     /**
      * @var integer
      *
@@ -35,7 +39,7 @@ class User
      */
     private $isAdmin;
 
-
+protected $inputFilter;
    
 
     /**
@@ -115,4 +119,27 @@ class User
     {
         return $this->userName;
     }
+
+    /**
+     * Set input filter
+     *
+     * @param  InputFilterInterface $inputFilter
+     * @return InputFilterAwareInterface
+     */
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        // TODO: Implement setInputFilter() method.
+    }
+
+    /**
+     * Retrieve input filter
+     *
+     * @return InputFilterInterface
+     */
+    public function getInputFilter()
+    {
+        // TODO: Implement getInputFilter() method.
+    }
+
+
 }

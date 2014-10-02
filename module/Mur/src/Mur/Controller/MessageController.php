@@ -2,18 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: Manu
- * Date: 01/10/2014
- * Time: 09:59
+ * Date: 02/10/2014
+ * Time: 09:54
  */
 
 namespace Mur\Controller;
 
-use Zend\View\Model\ViewModel;
+
 use Zend\Mvc\Controller\AbstractActionController;
 
-class UserController extends AbstractActionController
+class MessageController extends AbstractActionController
 {
-
     protected $em;
 
     /**
@@ -57,5 +56,4 @@ class UserController extends AbstractActionController
         }
         return $this->em;
     }
-
-}
+} 

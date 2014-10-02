@@ -2,7 +2,9 @@
 
 namespace Mur\Entity;
 
+
 use Doctrine\ORM\Mapping as ORM;
+
 
 /**
  * Message
@@ -10,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="message", indexes={@ORM\Index(name="id_user", columns={"idUser"})})
  * @ORM\Entity
  */
-class Message
+class Message extends ModelAbstract
 {
     /**
      * @var integer

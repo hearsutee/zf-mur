@@ -7,7 +7,8 @@ return
             [
                 'invokables' =>
                     [
-                        'Mur\Controller\User' => 'Mur\Controller\UserController'
+                        'Mur\Controller\User' => 'Mur\Controller\UserController',
+                        'Mur\Controller\Message' => 'Mur\Controller\MessageController'
                     ],
             ],
         'router' =>
