@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Message
  *
- * @ORM\Table(name="message", indexes={@ORM\Index(name="id_user", columns={"idUser"})})
+ * @ORM\Table(name="message", indexes={@ORM\Index(name="id_user", columns={"user"})})
  * @ORM\Entity
  */
 class Message extends ModelAbstract
@@ -42,10 +42,10 @@ class Message extends ModelAbstract
      *
      * @ORM\ManyToOne(targetEntity="Mur\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="user", referencedColumnName="idUser")
      * })
      */
-    private $idUser;
+    private $user;
 
 
 
@@ -68,7 +68,8 @@ class Message extends ModelAbstract
     {
         $this->id = $data['id'];
         $this->content = $data['content'];
-        $this->dateCreation = $data['isAdmin'];
+        $this->user = $data['user'];
+        $this->dateCreation = $data['dateCreation'];
     }
 
     /**
@@ -94,28 +95,7 @@ class Message extends ModelAbstract
         return $this->dateCreation;
     }
 
-    /**
-     * Set idUser
-     *
-     * @param \Mur\Entity\User $idUser
-     * @return Message
-     */
-    public function setIdUser(User $idUser = null)
-    {
-        $this->idUser = $idUser;
-
-        return $this;
-    }
-
-    /**
-     * Get idUser
-     *
-     * @return \Mur\Entity\User 
-     */
-    public function getIdUser()
-    {
-        return $this->idUser;
-    }
+   
 
     /**
      * Get id
@@ -148,5 +128,28 @@ class Message extends ModelAbstract
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Mur\Entity\User $user
+     * @return Message
+     */
+    public function setUser(\Mur\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Mur\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

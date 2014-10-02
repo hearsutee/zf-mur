@@ -142,4 +142,27 @@ protected $inputFilter;
     }
 
 
+
+    /**
+     * Set userName
+     *
+     * @param string $userName
+     * @return User
+     */
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
+
+        return $this;
+    }
+
+    /**
+     * Get userName
+     *
+     * @return string 
+     */
+    public function getUserName()
+    {
+        return $this->userName;
+    }
 }
