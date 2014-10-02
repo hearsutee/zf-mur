@@ -1,11 +1,12 @@
 <?php
 namespace Mur\Entity;
 
-//use Application\Entity\SerializableInterface;
-//use Zend\Stdlib\ArraySerializableInterface;
-//implements SerializableInterface, ArraySerializableInterface
 
-abstract class ModelAbstract
+use Zend\Stdlib\ArraySerializableInterface;
+
+//
+
+abstract class ModelAbstract implements \ArrayAccess, ArraySerializableInterface
 {
 
     public function offsetExists ($offset)

@@ -59,18 +59,7 @@ class Message extends ModelAbstract
         return get_object_vars($this);
     }
 
-    /**
-     * Populate from an array.
-     *
-     * @param array $data
-     */
-    public function exchangeArray($data = [])
-    {
-        $this->id = $data['id'];
-        $this->content = $data['content'];
-        $this->user = $data['user'];
-        $this->dateCreation = $data['dateCreation'];
-    }
+
 
     /**
      * Set dateCreation
@@ -136,7 +125,7 @@ class Message extends ModelAbstract
      * @param \Mur\Entity\User $user
      * @return Message
      */
-    public function setUser(\Mur\Entity\User $user = null)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
 
