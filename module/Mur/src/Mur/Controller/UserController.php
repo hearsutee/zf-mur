@@ -17,14 +17,17 @@ use Zend\Mvc\Controller\AbstractActionController;
 class UserController extends AbstractActionController
 {
 
-    protected $usersTable;
+    protected $em;
 
     /**
      * @return ViewModel
      */
     public function indexAction()
     {
-        $users = $this->getUsersTable()->select();
+        $em = $this->getEntityManager();
+
+        $users = $em->getRepository('Mur\Entity\User')->findAll();
+
         return new ViewModel(
             [
                 'users' => $users
@@ -49,16 +52,19 @@ class UserController extends AbstractActionController
 
     public function getUsersTable()
     {
-        if(!$this->usersTable){
-
-            $adapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-
-            $this->usersTable = new TableGateway(
-                'users',
-                $adapter
-            );
+        if (!$this->usersTable) {
+            $sm = $this->getServiceLocator();
+            $this->usersTable = $sm->get('Album\Model\usersTable');
         }
-
         return $this->usersTable;
     }
+
+    public function getEntityManager()
+    {
+        if (null === $this->em) {
+            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+        }
+        return $this->em;
+    }
+
 } 
