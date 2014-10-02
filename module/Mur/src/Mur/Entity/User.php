@@ -39,6 +39,7 @@ class User extends ModelAbstract implements InputFilterAwareInterface
      */
     private $isAdmin;
 
+
     protected $inputFilter;
 
     /**
@@ -98,15 +99,6 @@ class User extends ModelAbstract implements InputFilterAwareInterface
         return $this->id;
     }
 
-    /**
-     * Convert the object to an array.
-     *
-     * @return array
-     */
-    public function getArrayCopy()
-    {
-        return get_object_vars($this);
-    }
 
     /**
      * Set input filter
