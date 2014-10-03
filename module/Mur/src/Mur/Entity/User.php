@@ -31,7 +31,29 @@ class User extends ModelAbstract implements InputFilterAwareInterface
      */
     private $userName;
 
-    private $password;
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $password = '';
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function setPassword($plaintextPassword)
+    {
+        $this->password = crypt($plaintextPassword);
+        return $this;
+    }
+
+    public static function hashPassword($user, $password)
+    {
+        return ($user->getPassword() === crypt($password, $user->getPassword()));
+    }
+
+
 
     /**
      * @var boolean

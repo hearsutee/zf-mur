@@ -48,23 +48,25 @@ class Module implements
         return [
             'invokables' =>
                 [
-                    'mur.user.form' => 'Mur\Form\UserForm',
-                    'mur.message.form' => 'Mur\Form\MessageForm'
+                    'mur.user.admin.form' => 'Mur\Form\UserForm',
+                    'mur.message.add.form' => 'Mur\Form\MessageForm',
+                    'mur.user.register.form' => 'Mur\Form\RegisterForm',
+                    'mur.login.form' => 'Mur\Form\LoginForm',
                 ]
         ];
     }
 
-//    public function getServiceConfig()
-//    {
-//        return [
-//            'factories' =>
-//                [
-//                    'Zend\Authentication\AuthenticationService' => function ($serviceManager) {
-//
-//                        return $serviceManager->get('doctrine.authenticationservice.orm_default');
-//
-//                    }
-//                ]
-//        ];
-//    }
+    public function getServiceConfig()
+    {
+        return [
+            'factories' =>
+                [
+                    'Zend\Authentication\AuthenticationService' => function ($serviceManager) {
+
+                        return $serviceManager->get('doctrine.authenticationservice.orm_default');
+
+                    }
+                ]
+        ];
+    }
 }

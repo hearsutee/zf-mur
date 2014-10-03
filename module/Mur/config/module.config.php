@@ -8,7 +8,8 @@ return
                 'invokables' =>
                     [
                         'Mur\Controller\User' => 'Mur\Controller\UserController',
-                        'Mur\Controller\Message' => 'Mur\Controller\MessageController'
+                        'Mur\Controller\Message' => 'Mur\Controller\MessageController',
+                        'Mur\Controller\Authentication' => 'Mur\Controller\AuthenticationController'
                     ],
             ],
         'router' =>
@@ -85,7 +86,6 @@ return
                                             ],
                                     ],
                             ],
-
                         'home' =>
                             [
                                 'type' => 'Zend\Mvc\Router\Http\Literal',
@@ -94,11 +94,52 @@ return
                                         'route' => '/',
                                         'defaults' =>
                                             [
-                                                'controller' => 'Mur\Controller\User',
-                                                'action' => 'index',
+                                                '__NAMESPACE__' => 'Mur\Controller',
+                                                'controller' => 'Authentication',
+                                                'action' => 'login',
+                                            ],
+
+                                    ],
+                                'may_terminate' => true,
+                                'child_routes' =>
+                                    [
+                                        'default' =>
+                                            [
+                                                'type' => 'Segment',
+                                                'options' =>
+                                                    [
+                                                        'route' => '[/:action]',
+                                                        'constraints' =>
+                                                            [
+//                                                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                            ],
+                                                        'defaults' =>
+                                                            [
+                                                            ],
+                                                    ],
                                             ],
                                     ],
                             ],
+                        'register' =>
+                            [
+                                'type' => 'Zend\Mvc\Router\Http\Literal',
+                                'options' =>
+                                    [
+                                        'route' => '/register',
+                                        'defaults' =>
+                                            [
+                                                '__NAMESPACE__' => 'Mur\Controller',
+                                                'controller' => 'Authentication',
+                                                'action' => 'register',
+                                            ],
+
+                                    ],
+                                'may_terminate' => true,
+
+                            ],
+
+
 
                     ],
             ],
@@ -114,6 +155,10 @@ return
                     [
                         'translator' => 'MvcTranslator',
                     ],
+//                'invokables' =>
+//                [
+//                    'doctrine.athenticationservice.orm_default' => ''
+//                ]
             ],
         'translator' =>
             [
@@ -169,15 +214,26 @@ return
                             ],
                         'orm_default' =>
                             [
-//                                'object_manager' => 'Doctrine\ORM\EntityManager',
-//                                'identity_class' => 'Mur\Entity\User',
-//                                'identity_property' => 'userName',
-//                                'credential_property' => 'password',
+//
                                 'drivers' =>
                                     [
                                         'Mur\Entity' => 'mur_entities'
                                     ]
-                            ]
+                            ],
+                        'authentication' => [
+                            'orm_default' => [
+                                //should be the key you use to get doctrine's entity manager out of zf2's service locator
+                                'objectManager' => 'Doctrine\ORM\EntityManager',
+                                //fully qualified name of your user class
+                                'identityClass' => 'Mur\Entity\User',
+                                //the identity property of your class
+                                'identityProperty' => 'userName',
+                                //the password property of your class
+                                'credentialProperty' => 'password',
+                                //a callable function to hash the password with
+                                'credentialCallable' => 'Mur\Entity\User::hashPassword'
+                            ],
+                        ],
                     ]
             ],
 

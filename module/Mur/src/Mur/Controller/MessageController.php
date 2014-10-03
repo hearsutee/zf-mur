@@ -16,14 +16,14 @@ use Zend\View\Model\ViewModel;
 
 class MessageController extends AbstractActionController
 {
-    protected $em;
+
 
     /**
      * @return ViewModel
      */
     public function indexAction()
     {
-        $em = $this->getEntityManager();
+        $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
 
         $messages = $em->getRepository('Mur\Entity\Message')->findAll();
 
@@ -54,8 +54,8 @@ class MessageController extends AbstractActionController
             $em->flush();
 
 
-                // Redirect to list of messages
-                return $this->redirect()->toRoute('message/index');
+            // Redirect to list of messages
+            return $this->redirect()->toRoute('message/index');
 
         }
 
@@ -79,11 +79,4 @@ class MessageController extends AbstractActionController
     }
 
 
-    public function getEntityManager()
-    {
-        if (null === $this->em) {
-            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
-        }
-        return $this->em;
-    }
-} 
+}

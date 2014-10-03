@@ -8,20 +8,20 @@
 
 namespace Mur\Controller;
 
+use Mur\Entity\User;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class UserController extends AbstractActionController
 {
 
-    protected $em;
 
     /**
      * @return ViewModel
      */
     public function indexAction()
     {
-        $em = $this->getEntityManager();
+        $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
 
         $users = $em->getRepository('Mur\Entity\User')->findAll();
 
@@ -33,6 +33,7 @@ class UserController extends AbstractActionController
             ]
         );
     }
+
 
     public function createAction()
     {
@@ -56,13 +57,5 @@ class UserController extends AbstractActionController
         return new ViewModel();
     }
 
-
-    public function getEntityManager()
-    {
-        if (null === $this->em) {
-            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
-        }
-        return $this->em;
-    }
 
 }
