@@ -33,11 +33,15 @@ class AuthManagerTest extends PhpunitTestCase
         $this->instance = null;
     }
 
+    /**
+     * test register
+     */
     public function testRegister()
     {
         $dataFixture = [
-            'usernama' => 'machin',
-            'password' => 'truc123mE'
+            'username' => 'machin',
+            'password' => 'truc123mE',
+
         ];
 
 
@@ -84,7 +88,7 @@ class AuthManagerTest extends PhpunitTestCase
 
             ]);
 
-        $this->setInaccessiblePropertyValue('serviceLocator', $smMock);
+        $this->instance->setServiceLocator($smMock);
 
         $this->instance->register($dataFixture);
 

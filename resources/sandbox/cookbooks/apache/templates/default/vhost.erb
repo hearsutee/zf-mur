@@ -1,0 +1,25 @@
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName api.candidatskills.lan
+        DocumentRoot "/vagrant/public"
+
+        SetEnv APPLICATION_ENV development
+
+        Alias /phpunit "/vagrant/build/reports/coverage/html"
+        Alias /phpdoc "/vagrant/build/reports/php-doc/html"
+
+
+        <Directory /vagrant>
+                Options Indexes FollowSymLinks Multiviews
+                AllowOverride None
+                Require all granted
+        </Directory>
+
+        <Directory /vagrant/public>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+
+</VirtualHost>
