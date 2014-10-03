@@ -38,11 +38,17 @@ class AuthenticationController extends AbstractActionController
                 $em->persist($user);
                 $em->flush();
 
-                // Redirect to list of albums
-                return $this->redirect()->toRoute('user');
+
+                return $this->redirect()->toRoute('home');
             }
         }
-        return ['form' => $form];
+        return new ViewModel(
+            [
+
+                'form' => $form,
+
+            ]
+        );
     }
 
     public function loginAction()
@@ -57,7 +63,7 @@ class AuthenticationController extends AbstractActionController
 
             $form->setData($request->getPost());
 
-//            $data = $form->getData();
+
 
             if ($form->isValid()) {
                 $data = $form->getData();
@@ -69,7 +75,7 @@ class AuthenticationController extends AbstractActionController
                 $adapter->setCredentialValue($data['password']);
 
                 $authResult = $authService->authenticate();
-                die('aa');
+//                die('aa');
 
                 if ($authResult->isValid()) {
 
