@@ -22,22 +22,18 @@ class AuthenticationController extends AbstractActionController
         $sm = $this->getServiceLocator();
         $form = $sm->get('FormElementManager')->get('mur.user.register.form');
 
-        $em = $sm->get('doctrine.entitymanager.orm_default');
-
         $request = $this->getRequest();
+
         if ($request->isPost()) {
-            $user = new User();
 
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
 
-                $user->exchangeArray($form->getData());
-                $user->setIsAdmin(false);
+                $data = $form->getData();
 
-                $em->persist($user);
-                $em->flush();
-
+                $authService = $sm->get('mur.auth.service');
+                $authService->register($data);
 
                 return $this->redirect()->toRoute('home');
             }
@@ -59,36 +55,26 @@ class AuthenticationController extends AbstractActionController
         $request = $this->getRequest();
         if ($request->isPost()) {
 
+
             $form->setInputFilter(new LoginFilter());
 
             $form->setData($request->getPost());
 
 
-
             if ($form->isValid()) {
+
                 $data = $form->getData();
 
-                $authService = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
-                $adapter = $authService->getAdapter();
+                $authService = $sm->get('mur.auth.service');
 
-                $adapter->setIdentityValue($data['username']);
-                $adapter->setCredentialValue($data['password']);
-
-                $authResult = $authService->authenticate();
-//                die('aa');
-
-                if ($authResult->isValid()) {
-
-
-                    $identity = $authResult->getIdentity();
-                    $authService->getStorage()->write($identity);
+                if ($authService->login($data)) {
 
                     return $this->redirect()->toRoute('user');
+                } else {
+                    // erreur logins..
                 }
 
             }
-
-
         }
 
         return new ViewModel(

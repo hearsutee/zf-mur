@@ -4,8 +4,6 @@ namespace Mur\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
-use Zend\InputFilter\InputFilterAwareInterface;
-use Zend\InputFilter\InputFilterInterface;
 
 
 /**
@@ -14,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
  * @ORM\Table(name="message", indexes={@ORM\Index(name="id_user", columns={"user"})})
  * @ORM\Entity
  */
-class Message extends ModelAbstract implements InputFilterAwareInterface
+class Message extends ModelAbstract
 {
     /**
      * @var integer
@@ -40,7 +38,7 @@ class Message extends ModelAbstract implements InputFilterAwareInterface
     private $dateCreation;
 
     /**
-     * @var \Mur\Entity\User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="Mur\Entity\User")
      * @ORM\JoinColumns({
@@ -136,26 +134,7 @@ class Message extends ModelAbstract implements InputFilterAwareInterface
 
     //======InputFilter=======\\
 
-    /**
-     * Set input filter
-     *
-     * @param  InputFilterInterface $inputFilter
-     * @return InputFilterAwareInterface
-     */
-    public function setInputFilter(InputFilterInterface $inputFilter)
-    {
-        // TODO: Implement setInputFilter() method.
-    }
 
-    /**
-     * Retrieve input filter
-     *
-     * @return InputFilterInterface
-     */
-    public function getInputFilter()
-    {
-        // TODO: Implement getInputFilter() method.
-    }
 
 
 }

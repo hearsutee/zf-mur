@@ -26,7 +26,7 @@ class MessageController extends AbstractActionController
 
         $messages = $em->getRepository('Mur\Entity\Message')->findAll();
 
-//        die(var_dump($users));
+
 
         return new ViewModel(
             [
@@ -45,8 +45,9 @@ class MessageController extends AbstractActionController
         $request = $this->getRequest();
         if ($request->isPost()) {
 
-            $em = $this->getEntityManager();
+            $em = $this->$this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
             $message = new Message();
+
             $message->setDateCreation(new \DateTime('now'));
 
             $em->persist($message);

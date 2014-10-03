@@ -3,8 +3,7 @@
 namespace Mur\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Zend\InputFilter\InputFilterAwareInterface;
-use Zend\InputFilter\InputFilterInterface;
+
 
 /**
  * User
@@ -12,7 +11,7 @@ use Zend\InputFilter\InputFilterInterface;
  * @ORM\Table(name="user")
  * @ORM\Entity
  */
-class User extends ModelAbstract implements InputFilterAwareInterface
+class User extends ModelAbstract
 {
 
     /**
@@ -36,23 +35,6 @@ class User extends ModelAbstract implements InputFilterAwareInterface
      * @ORM\Column(type="string")
      */
     protected $password = '';
-
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    public function setPassword($plaintextPassword)
-    {
-        $this->password = crypt($plaintextPassword);
-        return $this;
-    }
-
-    public static function hashPassword($user, $password)
-    {
-        return ($user->getPassword() === crypt($password, $user->getPassword()));
-    }
-
 
 
     /**
@@ -124,28 +106,46 @@ class User extends ModelAbstract implements InputFilterAwareInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param $plaintextPassword
+     * @return $this
+     */
+    public function setPassword($plaintextPassword)
+    {
+        $this->password = crypt($plaintextPassword);
+        return $this;
+    }
+
     //======InputFilter=======\\
 
-    /**
-     * Set input filter
-     *
-     * @param  InputFilterInterface $inputFilter
-     * @return InputFilterAwareInterface
-     */
-    public function setInputFilter(InputFilterInterface $inputFilter)
-    {
-        // TODO: Implement setInputFilter() method.
-    }
-
-    /**
-     * Retrieve input filter
-     *
-     * @return InputFilterInterface
-     */
-    public function getInputFilter()
-    {
-        // TODO: Implement getInputFilter() method.
-    }
+//    /**
+//     * Set input filter
+//     *
+//     * @param  InputFilterInterface $inputFilter
+//     * @return InputFilterAwareInterface
+//     */
+//    public function setInputFilter(InputFilterInterface $inputFilter)
+//    {
+//        // TODO: Implement setInputFilter() method.
+//    }
+//
+//    /**
+//     * Retrieve input filter
+//     *
+//     * @return InputFilterInterface
+//     */
+//    public function getInputFilter()
+//    {
+//        // TODO: Implement getInputFilter() method.
+//    }
 
 
 }

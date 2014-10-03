@@ -155,6 +155,10 @@ return
                     [
                         'translator' => 'MvcTranslator',
                     ],
+                'invokables' =>
+                    [
+                        'mur.auth.service' => 'Mur\Service\AuthManager',
+                    ],
 
             ],
         'translator' =>
@@ -211,7 +215,7 @@ return
                             ],
                         'orm_default' =>
                             [
-//
+
                                 'drivers' =>
                                     [
                                         'Mur\Entity' => 'mur_entities'
@@ -219,16 +223,15 @@ return
                             ],
                         'authentication' => [
                             'orm_default' => [
-                                //should be the key you use to get doctrine's entity manager out of zf2's service locator
-                                'objectyManager' => 'Doctrine\ORM\EntityManager',
-                                //fully qualified name of your user class
-                                'identityClass' => 'Mur\Entity\User',
-                                //the identity property of your class
-                                'identityProperty' => 'userName',
-                                //the password property of your class
-                                'credentialProperty' => 'password',
-                                //a callable function to hash the password with
-                                'credentialCallable' => 'Mur\Entity\User::hashPassword'
+
+                                'object_manager'        => 'Doctrine\ORM\EntityManager',
+                                'identity_class'        => 'Mur\Entity\User',
+                                'identity_property'     => 'userName',
+                                'credential_property'   => 'password',
+
+                                'credential_callable'   => function($user, $passwordGiven) {
+                                    return ($user->getPassword() === crypt($passwordGiven));
+                                },
                             ],
                         ],
                     ]
