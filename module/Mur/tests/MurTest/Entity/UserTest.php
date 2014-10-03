@@ -53,14 +53,12 @@ class UserTest extends PhpunitTestCase
     /**
      * Test Get Set isAdmin
      */
-    public function testGetSetIsAdmin()
+    public function testGetSetRole()
     {
-        $fixtureTrue = true;
-        $fixtureFalse = false;
+        $fixture = 'admin';
 
-        $this->assertSame($this->instance, $this->instance->setIsAdmin($fixtureTrue));
-        $this->assertSame($this->instance, $this->instance->setIsAdmin($fixtureFalse));
-        $this->assertSame($fixtureFalse, $this->instance->getIsAdmin());
+        $this->assertSame($this->instance, $this->instance->setRole($fixture));
+        $this->assertSame($fixture, $this->instance->getRole());
     }
 
     /**

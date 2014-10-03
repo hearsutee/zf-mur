@@ -29,8 +29,6 @@ class UserController extends AbstractActionController
 
         $users = $em->getRepository('Mur\Entity\User')->findAll();
 
-//        die(var_dump($users));
-
         return new ViewModel(
             [
                 'users' => $users

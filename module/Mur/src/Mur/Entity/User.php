@@ -2,6 +2,7 @@
 
 namespace Mur\Entity;
 
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -13,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User extends ModelAbstract
 {
+
 
     /**
      * @var integer
@@ -34,18 +36,13 @@ class User extends ModelAbstract
      * @var string
      * @ORM\Column(type="string")
      */
-    protected $password = '';
-
+    private $password;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="isAdmin", type="boolean", nullable=false)
+     * @var string
+     * @ORM\Column(type="string")
      */
-    private $isAdmin;
-
-
-    protected $inputFilter;
+    private $role;
 
 
     //=======GETTERS/SETTERS=======\\
@@ -71,28 +68,6 @@ class User extends ModelAbstract
         return $this;
     }
 
-    /**
-     * Get isAdmin
-     *
-     * @return boolean
-     */
-    public function getIsAdmin()
-    {
-        return $this->isAdmin;
-    }
-
-    /**
-     * Set isAdmin
-     *
-     * @param boolean $isAdmin
-     * @return User
-     */
-    public function setIsAdmin($isAdmin)
-    {
-        $this->isAdmin = $isAdmin;
-
-        return $this;
-    }
 
     /**
      * Get userName
@@ -135,32 +110,33 @@ class User extends ModelAbstract
         return $this;
     }
 
-    //======InputFilter=======\\
-
-//    /**
-//     * Set input filter
-//     *
-//     * @param  InputFilterInterface $inputFilter
-//     * @return InputFilterAwareInterface
-//     */
-//    public function setInputFilter(InputFilterInterface $inputFilter)
-//    {
-//        // TODO: Implement setInputFilter() method.
-//    }
-//
-//    /**
-//     * Retrieve input filter
-//     *
-//     * @return InputFilterInterface
-//     */
-//    public function getInputFilter()
-//    {
-//        // TODO: Implement getInputFilter() method.
-//    }
-
-    public function __toString()
+    /**
+     * Set role
+     *
+     * @param string $role
+     * @return User
+     */
+    public function setRole($role)
     {
-        return $this->userName;
+        $this->role = $role;
+
+        return $this;
     }
+
+    /**
+     * Get role
+     *
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+
+
+
+
+
 
 }

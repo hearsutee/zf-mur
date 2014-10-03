@@ -41,30 +41,45 @@ class MessageController extends AbstractActionController
 
     public function createAction()
     {
+       $sm = $this->getServiceLocator();
+//
+//        $sessionUser = $sm
+//            ->get('Zend\Authentication\AuthenticationService')
+//            ->getStorage()
+//            ->read()['user'];
+//        $acl = $this->getServiceLocator()
+//            ->get('mur.acl');
+//
+//        if ($acl->isAllowed($sessionUser['role'], 'message', 'create')) {
 
-        $sm = $this->getServiceLocator();
-        $form = $sm->get('FormElementManager')->get('mur.message.form');
+            $form = $sm->get('FormElementManager')->get('mur.message.form');
 
+            $request = $this->getRequest();
 
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $form->setInputFilter(new MessageFilter());
+            if ($request->isPost()) {
+                $form->setInputFilter(new MessageFilter());
 
-            $form->setData($request->getPost());
+                $form->setData($request->getPost());
 
-            if ($form->isValid()) {
-                $data = $form->getData();
+                if ($form->isValid()) {
+                    $data = $form->getData();
 
-                $messageManager = $this->getServiceLocator()->get('mur.message.manager');
+                    $messageManager = $sm->get('mur.message.manager');
 
-                if ($messageManager->write($data)) {
-                    return $this->redirect()->toRoute('message/index');
-                } else {
-                    //pb message non enregistré..
+                    if ($messageManager->write($data)) {
+                        return $this->redirect()->toRoute('message/index');
+                    } else {
+                        //pb message non enregistré..
+                    }
                 }
-            }
 
+            }
+       // }
+        else
+        {
+            //redirect to route access denied
         }
+
 
         return new ViewModel(
             [

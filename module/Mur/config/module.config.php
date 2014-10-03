@@ -154,9 +154,21 @@ return
                     ],
                 'invokables' =>
                     [
+                        //acl
+                        'mur.acl' => 'Mur\MurAcl',
+                        //form elements
                         'mur.auth.service' => 'Mur\Service\AuthManager',
                         'mur.message.manager' => 'Mur\Service\MessageManager',
+                        //Entity
+                        'mur.entity.user'     => 'Mur\Entity\User',
                     ],
+                'factories' =>
+                    [
+                        'Zend\Authentication\AuthenticationService' => function($serviceManager) {
+                            // If you are using DoctrineORMModule:
+                            return $serviceManager->get('doctrine.authenticationservice.orm_default');
+                        }
+                    ]
 
             ],
         'translator' =>
@@ -205,6 +217,19 @@ return
             [
                 'driver' =>
                     [
+                        'authentication' => [
+                            'orm_default' => [
+
+                                'object_manager'        => 'Doctrine\ORM\EntityManager',
+                                'identity_class'        => 'Mur\Entity\User',
+                                'identity_property'     => 'userName',
+                                'credential_property'   => 'password',
+
+                                'credential_callable'   => function($user, $passwordGiven) {
+                                    return ($user->getPassword() === crypt($passwordGiven));
+                                },
+                            ],
+                        ],
                         'mur_entities' =>
                             [
                                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
@@ -219,19 +244,7 @@ return
                                         'Mur\Entity' => 'mur_entities'
                                     ]
                             ],
-                        'authentication' => [
-                            'orm_default' => [
 
-                                'object_manager'        => 'Doctrine\ORM\EntityManager',
-                                'identity_class'        => 'Mur\Entity\User',
-                                'identity_property'     => 'userName',
-                                'credential_property'   => 'password',
-
-                                'credential_callable'   => function($user, $passwordGiven) {
-                                    return ($user->getPassword() === crypt($passwordGiven));
-                                },
-                            ],
-                        ],
                     ]
             ],
 

@@ -9,10 +9,14 @@
 
 namespace Mur;
 
+use Zend\Authentication\AuthenticationService;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\FormElementProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Permissions\Acl\Acl;
+use Zend\Permissions\Acl\Role\GenericRole as Role;
+use Zend\Permissions\Acl\Resource\GenericResource as Resource;
 
 class Module implements
     FormElementProviderInterface,
@@ -20,9 +24,16 @@ class Module implements
 {
     public function onBootstrap(MvcEvent $e)
     {
+
+//        $this->initAcl($e);
+
         $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+//        $e->getApplication()->getEventManager()->attach(
+//            'route', [$this, 'checkAcl']
+//        );
     }
 
     public function getConfig()
@@ -57,17 +68,7 @@ class Module implements
         ];
     }
 
-    public function getServiceConfig()
-    {
-        return [
-            'factories' =>
-                [
-                    'Zend\Authentication\AuthenticationService' => function ($serviceManager) {
 
-                        return $serviceManager->get('doctrine.authenticationservice.orm_default');
 
-                    }
-                ]
-        ];
-    }
+//
 }

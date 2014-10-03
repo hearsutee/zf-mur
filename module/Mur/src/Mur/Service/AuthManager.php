@@ -49,7 +49,7 @@ class AuthManager implements ServiceLocatorAwareInterface
         $hydrator = new DoctrineObject($em);
         $hydrator->hydrate($data, $user);
 
-        $user->setIsAdmin(false);
+        $user->setRole('member');
 
         $em->persist($user);
         $em->flush();
