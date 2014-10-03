@@ -51,8 +51,7 @@ class AuthenticationController extends AbstractActionController
         $form = $sm->get('FormElementManager')->get('mur.login.form');
 
         $request = $this->getRequest();
-        if ($request->isPost())
-        {
+        if ($request->isPost()) {
 
             $form->setInputFilter(new LoginFilter());
 
@@ -61,7 +60,7 @@ class AuthenticationController extends AbstractActionController
 //            $data = $form->getData();
 
             if ($form->isValid()) {
-$data = $form->getData();
+                $data = $form->getData();
 
                 $authService = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
                 $adapter = $authService->getAdapter();
@@ -82,7 +81,6 @@ $data = $form->getData();
                 }
 
             }
-
 
 
         }

@@ -140,7 +140,6 @@ return
                             ],
 
 
-
                     ],
             ],
         'service_manager' =>
@@ -155,86 +154,83 @@ return
                     [
                         'translator' => 'MvcTranslator',
                     ],
-//                'invokables' =>
-//                [
-//                    'doctrine.athenticationservice.orm_default' => ''
-//                ]
-            ],
-        'translator' =>
-            [
-                'locale' => 'en_US',
-                'translation_file_patterns' =>
-                    [
-                        [
-                            'type' => 'gettext',
-                            'base_dir' => __DIR__ . '/../language',
-                            'pattern' => '%s.mo',
-                        ],
-                    ],
-            ],
-
-        'view_manager' =>
-            [
-                'display_not_found_reason' => true,
-                'display_exceptions' => true,
-                'doctype' => 'HTML5',
-                'not_found_template' => 'error/404',
-                'exception_template' => 'error/index',
-                'template_map' =>
-                    [
-                        'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
-                        'mur/user/index' => __DIR__ . '/../view/mur/user/index.phtml',
-                        'error/404' => __DIR__ . '/../view/error/404.phtml',
-                        'error/index' => __DIR__ . '/../view/error/index.phtml',
-                    ],
-                'template_path_stack' =>
-                    [
-                        __DIR__ . '/../view',
-                    ],
-            ],
-        // Placeholder for console routes
-        'console' =>
-            [
-                'router' =>
-                    [
-                        'routes' =>
-                            [
-                            ],
-                    ],
-            ],
-        'doctrine' =>
-            [
-                'driver' =>
-                    [
-                        'mur_entities' =>
-                            [
-                                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                                'cache' => 'array',
-                                'paths' => [__DIR__ . '/../src/Mur/Entity']
-                            ],
-                        'orm_default' =>
-                            [
 //
-                                'drivers' =>
-                                    [
-                                        'Mur\Entity' => 'mur_entities'
-                                    ]
+                'translator' =>
+                    [
+                        'locale' => 'en_US',
+                        'translation_file_patterns' =>
+                            [
+                                [
+                                    'type' => 'gettext',
+                                    'base_dir' => __DIR__ . '/../language',
+                                    'pattern' => '%s.mo',
+                                ],
                             ],
-                        'authentication' => [
-                            'orm_default' => [
-                                //should be the key you use to get doctrine's entity manager out of zf2's service locator
-                                'objectManager' => 'Doctrine\ORM\EntityManager',
-                                //fully qualified name of your user class
-                                'identityClass' => 'Mur\Entity\User',
-                                //the identity property of your class
-                                'identityProperty' => 'userName',
-                                //the password property of your class
-                                'credentialProperty' => 'password',
-                                //a callable function to hash the password with
-                                'credentialCallable' => 'Mur\Entity\User::hashPassword'
-                            ],
-                        ],
-                    ]
-            ],
+                    ],
 
-    ];
+                'view_manager' =>
+                    [
+                        'display_not_found_reason' => true,
+                        'display_exceptions' => true,
+                        'doctype' => 'HTML5',
+                        'not_found_template' => 'error/404',
+                        'exception_template' => 'error/index',
+                        'template_map' =>
+                            [
+                                'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
+                                'mur/user/index' => __DIR__ . '/../view/mur/user/index.phtml',
+                                'error/404' => __DIR__ . '/../view/error/404.phtml',
+                                'error/index' => __DIR__ . '/../view/error/index.phtml',
+                            ],
+                        'template_path_stack' =>
+                            [
+                                __DIR__ . '/../view',
+                            ],
+                    ],
+                // Placeholder for console routes
+                'console' =>
+                    [
+                        'router' =>
+                            [
+                                'routes' =>
+                                    [
+                                    ],
+                            ],
+                    ],
+                'doctrine' =>
+                    [
+                        'driver' =>
+                            [
+                                'mur_entities' =>
+                                    [
+                                        'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                                        'cache' => 'array',
+                                        'paths' => [__DIR__ . '/../src/Mur/Entity']
+                                    ],
+                                'orm_default' =>
+                                    [
+//
+                                        'drivers' =>
+                                            [
+                                                'Mur\Entity' => 'mur_entities'
+                                            ]
+                                    ],
+                                'authentication' => [
+                                    'orm_default' => [
+                                        //should be the key you use to get doctrine's entity manager out of zf2's service locator
+                                        'objectManager' => 'Doctrine\ORM\EntityManager',
+                                        //fully qualified name of your user class
+                                        'identityClass' => 'Mur\Entity\User',
+                                        //the identity property of your class
+                                        'identityProperty' => 'userName',
+                                        //the password property of your class
+                                        'credentialProperty' => 'password',
+                                        //a callable function to hash the password with
+                                        'credentialCallable' => 'Mur\Entity\User::hashPassword'
+                                    ],
+                                ],
+                            ]
+                    ],
+]
+            ];
+
