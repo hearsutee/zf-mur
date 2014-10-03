@@ -11,6 +11,11 @@ class MessageForm extends Form
         // we want to ignore the name passed
         parent::__construct('message');
 
+
+    }
+
+    public function init()
+    {
         $this->setAttribute('method', 'post');
 
         $this->add([
@@ -32,6 +37,5 @@ class MessageForm extends Form
                 'id' => 'submitbutton',
             ],
         ]);
-
     }
 }

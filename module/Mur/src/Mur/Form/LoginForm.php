@@ -15,10 +15,8 @@ class LoginForm extends Form
 {
     public function __construct($name = null)
     {
-        // we want to ignore the name passed
-        parent::__construct('login');
 
-//        $this->init();
+        parent::__construct('login');
 
     }
 
