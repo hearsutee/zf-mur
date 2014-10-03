@@ -16,6 +16,74 @@ return
             [
                 'routes' =>
                     [
+                        'home' =>
+                            [
+                                'type' => 'Zend\Mvc\Router\Http\Literal',
+                                'options' =>
+                                    [
+                                        'route' => '/',
+                                        'defaults' =>
+                                            [
+                                                '__NAMESPACE__' => 'Mur\Controller',
+                                                'controller' => 'Authentication',
+                                                'action' => 'login',
+                                            ],
+
+                                    ],
+                                'may_terminate' => true,
+                                'child_routes' =>
+                                    [
+                                        'default' =>
+                                            [
+                                                'type' => 'Segment',
+                                                'options' =>
+                                                    [
+                                                        'route' => '[/:action]',
+                                                        'constraints' =>
+                                                            [
+                                                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                            ],
+                                                        'defaults' =>
+                                                            [
+                                                            ],
+                                                    ],
+                                            ],
+                                    ],
+                            ],
+                        'message' =>
+                            [
+                                'type' => 'Zend\Mvc\Router\Http\Literal',
+                                'options' =>
+                                    [
+                                        'route' => '/message',
+                                        'defaults' =>
+                                            [
+                                                '__NAMESPACE__' => 'Mur\Controller',
+                                                'controller' => 'Message',
+                                                'action' => 'index',
+                                            ],
+
+                                    ],
+                                'may_terminate' => true,
+                                'child_routes' =>
+                                    [
+                                        'default' =>
+                                            [
+                                                'type' => 'Segment',
+                                                'options' =>
+                                                    [
+                                                        'route' => '[/:action]',
+                                                        'constraints' =>
+                                                            [
+                                                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                            ],
+                                                        'defaults' =>
+                                                            [
+                                                            ],
+                                                    ],
+                                            ],
+                                    ],
+                            ],
                         'user' =>
                             [
                                 'type' => 'Zend\Mvc\Router\Http\Literal',
@@ -51,76 +119,7 @@ return
                                             ],
                                     ],
                             ],
-                        'message' =>
-                            [
-                                'type' => 'Zend\Mvc\Router\Http\Literal',
-                                'options' =>
-                                    [
-                                        'route' => '/message',
-                                        'defaults' =>
-                                            [
-                                                '__NAMESPACE__' => 'Mur\Controller',
-                                                'controller' => 'Message',
-                                                'action' => 'index',
-                                            ],
 
-                                    ],
-                                'may_terminate' => true,
-                                'child_routes' =>
-                                    [
-                                        'default' =>
-                                            [
-                                                'type' => 'Segment',
-                                                'options' =>
-                                                    [
-                                                        'route' => '[/:action]',
-                                                        'constraints' =>
-                                                            [
-//                                                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                                            ],
-                                                        'defaults' =>
-                                                            [
-                                                            ],
-                                                    ],
-                                            ],
-                                    ],
-                            ],
-                        'home' =>
-                            [
-                                'type' => 'Zend\Mvc\Router\Http\Literal',
-                                'options' =>
-                                    [
-                                        'route' => '/',
-                                        'defaults' =>
-                                            [
-                                                '__NAMESPACE__' => 'Mur\Controller',
-                                                'controller' => 'Authentication',
-                                                'action' => 'login',
-                                            ],
-
-                                    ],
-                                'may_terminate' => true,
-                                'child_routes' =>
-                                    [
-                                        'default' =>
-                                            [
-                                                'type' => 'Segment',
-                                                'options' =>
-                                                    [
-                                                        'route' => '[/:action]',
-                                                        'constraints' =>
-                                                            [
-//                                                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                                            ],
-                                                        'defaults' =>
-                                                            [
-                                                            ],
-                                                    ],
-                                            ],
-                                    ],
-                            ],
                         'register' =>
                             [
                                 'type' => 'Zend\Mvc\Router\Http\Literal',
@@ -138,8 +137,6 @@ return
                                 'may_terminate' => true,
 
                             ],
-
-
 
                     ],
             ],

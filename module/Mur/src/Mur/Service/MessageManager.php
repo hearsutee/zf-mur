@@ -9,6 +9,7 @@
 namespace Mur\Service;
 
 
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Mur\Entity\Message;
 use Mur\Entity\User;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -16,18 +17,20 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class MessageManager implements ServiceLocatorAwareInterface
 {
-    use ServiceLocatorAwareTrait
-;
+    use ServiceLocatorAwareTrait;
+
     public function write(array $data)
     {
         $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
 
         $message = new Message();
 
-        $message->exchangeArray($data);
+        $hydrator = new DoctrineObject($em);
+        $hydrator->hydrate($data, $message);
+
         $virtualUser = new User();
 
-        //temp, quand auth fcontionnera recuperer l'utilisateur connecté !
+        //temp, quand auth fonctionnera recuperer l'utilisateur connecté !
         $virtualUser->setId(654654)
             ->setUserName('Temp-Test')
              ->setPassword('Temp-Test123')

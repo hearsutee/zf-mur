@@ -9,6 +9,7 @@
 namespace Mur\Service;
 
 
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Mur\Entity\User;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -43,10 +44,12 @@ class AuthManager implements ServiceLocatorAwareInterface
     {
         $user = new User();
 
-        $user->exchangeArray($data);
-        $user->setIsAdmin(false);
-
         $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+
+        $hydrator = new DoctrineObject($em);
+        $hydrator->hydrate($data, $user);
+
+        $user->setIsAdmin(false);
 
         $em->persist($user);
         $em->flush();

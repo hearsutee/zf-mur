@@ -61,6 +61,18 @@ class Message extends ModelAbstract
     }
 
     /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function setId($id)
+    {
+         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Get content
      *
      * @return string

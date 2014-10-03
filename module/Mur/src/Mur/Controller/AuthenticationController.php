@@ -14,9 +14,16 @@ use Mur\Form\LoginFilter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
+/**
+ * Class AuthenticationController
+ * @package Mur\Controller
+ */
 class AuthenticationController extends AbstractActionController
 {
 
+    /**
+     * @return \Zend\Http\Response|ViewModel
+     */
     public function registerAction()
     {
         $sm = $this->getServiceLocator();
@@ -47,6 +54,9 @@ class AuthenticationController extends AbstractActionController
         );
     }
 
+    /**
+     * @return \Zend\Http\Response|ViewModel
+     */
     public function loginAction()
     {
         $sm = $this->getServiceLocator();

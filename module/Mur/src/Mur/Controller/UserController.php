@@ -12,6 +12,10 @@ use Mur\Entity\User;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
 
+/**
+ * Class UserController
+ * @package Mur\Controller
+ */
 class UserController extends AbstractActionController
 {
 
@@ -35,6 +39,9 @@ class UserController extends AbstractActionController
     }
 
 
+    /**
+     * @return ViewModel
+     */
     public function createAction()
     {
         $sm = $this->getServiceLocator();
@@ -47,11 +54,17 @@ class UserController extends AbstractActionController
         );
     }
 
+    /**
+     * @return ViewModel
+     */
     public function updateAction()
     {
         return new ViewModel();
     }
 
+    /**
+     * @return ViewModel
+     */
     public function deleteAction()
     {
         return new ViewModel();

@@ -14,6 +14,10 @@ use Mur\Form\MessageFilter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
+/**
+ * Class MessageController
+ * @package Mur\Controller
+ */
 class MessageController extends AbstractActionController
 {
 
@@ -73,6 +77,8 @@ class MessageController extends AbstractActionController
 
     public function updateAction()
     {
+
+
         return new ViewModel();
     }
 

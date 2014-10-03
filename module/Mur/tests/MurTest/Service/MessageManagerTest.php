@@ -10,10 +10,10 @@ namespace MurTest\Entity;
 
 
 use Mur\Entity\Message;
-use Mur\Service\AuthManager;
+use Mur\Service\MessageManager;
 use Mur\Test\PhpunitTestCase;
 
-class AuthManagerTest extends PhpunitTestCase
+class MessageManagerTest extends PhpunitTestCase
 {
     protected $instance;
 
@@ -22,7 +22,7 @@ class AuthManagerTest extends PhpunitTestCase
      */
     public function setUp()
     {
-        $this->instance = new AuthManager();
+        $this->instance = new MessageManager();
     }
 
     /**
@@ -36,24 +36,31 @@ class AuthManagerTest extends PhpunitTestCase
     /**
      * test register
      */
-    public function testRegister()
+    public function testCreate()
     {
         $dataFixture = [
-            'username' => 'machin',
-            'password' => 'truc123mE',
+            'content' => 'loremIpsum?loremIpsum?  !  loremIpsum?
+            loremIpsum?loremIpsum?loremIpsum?loremIpsum?   !  loremIpsum?
+            loremIpsum?loremIpsum?',
 
         ];
 
-
-        $userMock = $this->getMockFromArray('Mur\Entity\User', false,
+        $userConnectedMock = $this->getMockFromArray('Mur\Entity\User', false,
             [
 
-                'setIsAdmin' =>
-                    [
-                        'with' => false,
-                        'will' => $this->returnValue($this->instance)
-                    ]
+            ]);
 
+        $messageMock = $this->getMockFromArray('Mur\Entity\Message', false,
+            [
+                'exchangeArray' =>
+                    [
+                        'with' => $dataFixture,
+                    ],
+
+                'flush' =>
+                    [
+
+                    ]
             ]);
 
         $doctrineEmMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false,
@@ -61,7 +68,7 @@ class AuthManagerTest extends PhpunitTestCase
 
                 'persist' =>
                     [
-                        'with' => $userMock,
+                        'with' => $messageMock,
                     ],
 
                 'flush' =>
@@ -70,12 +77,6 @@ class AuthManagerTest extends PhpunitTestCase
                     ]
 
             ]);
-
-        $doctrineObjectMock = $this->getMock('DoctrineModule\Stdlib\Hydrator\DoctrineObject', ['hydrate'], [$doctrineEmMock]);
-
-        $doctrineObjectMock->expects($this->once())
-            ->method('hydrate')
-            ->with($dataFixture, $userMock);
 
         $smMock = $this->getMockFromArray('Zend\ServiceManager\ServiceManager', false,
             [
@@ -94,11 +95,6 @@ class AuthManagerTest extends PhpunitTestCase
         $this->instance->register($dataFixture);
 
     }
-
-//    public function testLogin()
-//    {
-//
-//    }
 
 
 }
