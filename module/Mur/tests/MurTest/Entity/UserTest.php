@@ -63,6 +63,18 @@ class UserTest extends PhpunitTestCase
         $this->assertSame($fixtureFalse, $this->instance->getIsAdmin());
     }
 
+    /**
+     * Test __toString
+     */
+    public function testToString()
+    {
+        $fixture= 'blabla';
+        $this->setInaccessiblePropertyValue('userName', $fixture);
+
+        $this->assertSame($fixture, $this->instance->__toString());
+
+    }
+
 //    /*+
 //    * Test Get Set id
 //    */

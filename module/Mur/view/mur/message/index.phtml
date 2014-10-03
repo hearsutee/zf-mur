@@ -5,16 +5,16 @@
     <thead>
     <th>id</th>
     <th>contenu</th>
-    <th>isAdmin ?</th>
+<!--    <th>isAdmin ?</th>-->
     <th>Auteur</th>
     </thead>
     <tbody>
-<?php foreach($this->users as $user ): ?>
+<?php foreach($this->messages as $message ): ?>
 
    <tr>
        <td> <?= $message['id'] ?> </td>
        <td> <?= $message['content'] ?> </td>
-       <td> <?= $message['user']['isAdmin'] == 0 ? 'non' : 'oui'; ?> </td>
+<!--       <td> --><?//= $message['user']['isAdmin'] == 0 ? 'non' : 'oui'; ?><!-- </td>-->
        <td> <?= $message['user'] ?> </td>
    </tr>
 

@@ -61,6 +61,17 @@ class User extends ModelAbstract
     }
 
     /**
+     * @param $id
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Get isAdmin
      *
      * @return boolean
@@ -147,5 +158,9 @@ class User extends ModelAbstract
 //        // TODO: Implement getInputFilter() method.
 //    }
 
+    public function __toString()
+    {
+        return $this->userName;
+    }
 
 }

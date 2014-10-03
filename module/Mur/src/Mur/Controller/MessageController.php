@@ -10,6 +10,7 @@ namespace Mur\Controller;
 
 
 use Mur\Entity\Message;
+use Mur\Form\MessageFilter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -25,7 +26,6 @@ class MessageController extends AbstractActionController
         $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
 
         $messages = $em->getRepository('Mur\Entity\Message')->findAll();
-
 
 
         return new ViewModel(
@@ -44,18 +44,21 @@ class MessageController extends AbstractActionController
 
         $request = $this->getRequest();
         if ($request->isPost()) {
+            $form->setInputFilter(new MessageFilter());
 
-            $em = $this->$this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
-            $message = new Message();
+            $form->setData($request->getPost());
 
-            $message->setDateCreation(new \DateTime('now'));
+            if ($form->isValid()) {
+                $data = $form->getData();
 
-            $em->persist($message);
-            $em->flush();
+                $messageManager = $this->getServiceLocator()->get('mur.message.manager');
 
-
-            // Redirect to list of messages
-            return $this->redirect()->toRoute('message/index');
+                if ($messageManager->write($data)) {
+                    return $this->redirect()->toRoute('message/index');
+                } else {
+                    //pb message non enregistré..
+                }
+            }
 
         }
 
@@ -65,7 +68,7 @@ class MessageController extends AbstractActionController
             ]
         );
 
-        return new ViewModel();
+
     }
 
     public function updateAction()

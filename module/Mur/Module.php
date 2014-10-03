@@ -52,6 +52,7 @@ class Module implements
                     'mur.message.add.form' => 'Mur\Form\MessageForm',
                     'mur.user.register.form' => 'Mur\Form\RegisterForm',
                     'mur.login.form' => 'Mur\Form\LoginForm',
+                    'mur.message.form' => 'Mur\Form\MessageForm',
                 ]
         ];
     }

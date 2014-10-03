@@ -158,6 +158,7 @@ return
                 'invokables' =>
                     [
                         'mur.auth.service' => 'Mur\Service\AuthManager',
+                        'mur.message.manager' => 'Mur\Service\MessageManager',
                     ],
 
             ],

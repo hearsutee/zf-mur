@@ -70,7 +70,7 @@ class MessageTest extends PhpunitTestCase
     }
 
     /**
-     * Test Get Set DateCreation
+     * Test Get Set User
      */
     public function testGetSetUser()
     {

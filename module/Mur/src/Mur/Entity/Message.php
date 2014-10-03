@@ -42,7 +42,7 @@ class Message extends ModelAbstract
      *
      * @ORM\ManyToOne(targetEntity="Mur\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user", referencedColumnName="idUser")
+     *   @ORM\JoinColumn(name="user", referencedColumnName="id")
      * })
      */
     private $user;
