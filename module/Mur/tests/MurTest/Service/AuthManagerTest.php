@@ -40,6 +40,7 @@ class AuthManagerTest extends PhpunitTestCase
             'password' => 'truc123mE'
         ];
 
+
         $userMock = $this->getMockFromArray('Mur\Entity\User', false,
             [
 
@@ -62,7 +63,6 @@ class AuthManagerTest extends PhpunitTestCase
                 'persist' =>
                     [
                         'with' => $userMock,
-
                     ],
 
                 'flush' =>
@@ -72,10 +72,23 @@ class AuthManagerTest extends PhpunitTestCase
 
             ]);
 
+        $smMock = $this->getMockFromArray('Zend\ServiceManager\ServiceManager', false,
+            [
+
+                'get' =>
+                    [
+                        'with' => 'doctrine.entitymanager.orm_default',
+                        'will' => $this->returnValue($doctrineEmMock)
+                    ],
+
+
+            ]);
+
+        $this->setInaccessiblePropertyValue('serviceLocator', $smMock);
+
         $this->instance->register($dataFixture);
 
     }
-
 
 
 }
