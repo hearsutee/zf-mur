@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="user")
  * @ORM\Entity
+ *
  */
 class User extends ModelAbstract
 {
@@ -28,7 +29,7 @@ class User extends ModelAbstract
     /**
      * @var string
      *
-     * @ORM\Column(name="userName", type="string", length=255, nullable=false)
+     * @ORM\Column(name="userName", type="string", length=255)
      */
     private $userName;
 

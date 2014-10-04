@@ -75,13 +75,13 @@ class AuthenticationController extends AbstractActionController
 
                 $data = $form->getData();
 
-                $authService = $sm->get('mur.auth.service');
+                $authManager = $sm->get('mur.auth.manager');
 
                 if ($authService->login($data)) {
 
                     return $this->redirect()->toRoute('user');
                 } else {
-                    // erreur logins..
+                   //wrong credidentials
                 }
 
             }

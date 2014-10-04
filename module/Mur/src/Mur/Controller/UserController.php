@@ -21,6 +21,7 @@ class UserController extends AbstractActionController
 
 
     /**
+     * admin view all users
      * @return ViewModel
      */
     public function indexAction()
@@ -38,6 +39,7 @@ class UserController extends AbstractActionController
 
 
     /**
+     * admin create a new user
      * @return ViewModel
      */
     public function createAction()
@@ -53,6 +55,7 @@ class UserController extends AbstractActionController
     }
 
     /**
+     * admin update exisiting user
      * @return ViewModel
      */
     public function updateAction()
@@ -61,6 +64,7 @@ class UserController extends AbstractActionController
     }
 
     /**
+     * admin delete an existing user
      * @return ViewModel
      */
     public function deleteAction()

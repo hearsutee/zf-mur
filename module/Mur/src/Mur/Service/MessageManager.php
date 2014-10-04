@@ -21,29 +21,56 @@ class MessageManager implements ServiceLocatorAwareInterface
 
     public function write(array $data)
     {
-        $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+        $sm = $this->getServiceLocator();
+        $em = $sm->get('doctrine.entitymanager.orm_default');
 
         $message = new Message();
 
         $hydrator = new DoctrineObject($em);
         $hydrator->hydrate($data, $message);
 
-        $virtualUser = new User();
+        $authManager = $this->getServiceLocator()->get('mur.auth.manager');
+        $userConnected = $authManager->getUserConnected();
 
-        //temp, quand auth fonctionnera recuperer l'utilisateur connecté !
-        $virtualUser->setId(654654)
-            ->setUserName('Temp-Test')
-             ->setPassword('Temp-Test123')
-             ->setRole('member');
-        $em->persist($virtualUser);
-
-        $message->setUser($virtualUser);
-
+        $message->setUser($userConnected);
         $message->setDateCreation(new \DateTime('now'));
+        $this->record($message);
 
-        $em->persist($message);
-        $em->flush();
 
         return true;
+    }
+
+    public function update($idMessage, $data)
+    {
+
+        $messageToUpdate = $this->getMessageById($idMessage);
+
+        $hydrator = new DoctrineObject($em);
+        $hydrator->hydrate($data, $messageToUpdate);
+
+        $this->record($messageToUpdate);
+
+        return true;
+    }
+
+    public function getMessageById($id)
+    {
+        $sm = $this->getServiceLocator();
+        $em = $sm->get('doctrine.entitymanager.orm_default');
+
+        $message = $em
+            ->getRepository('Mur\Entity\Message')
+            ->findOneById($id);
+
+        return $message;
+    }
+
+    public function record($object)
+    {
+        $sm = $this->getServiceLocator();
+        $em = $sm->get('doctrine.entitymanager.orm_default');
+
+        $em->persist($object);
+        $em->flush();
     }
 } 

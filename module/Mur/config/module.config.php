@@ -3,6 +3,39 @@
 
 return
     [
+        'doctrine' =>
+        [
+            'authentication' =>
+                [
+                    'orm_default' =>
+                        [
+                            'object_manager'        => 'Doctrine\ORM\EntityManager',
+                            'identity_class'        => 'Mur\Entity\User',
+                            'identity_property'     => 'userName',
+                            'credential_property'   => 'password',
+                            'credential_callable'   => function($user, $passwordGiven) {
+                                $cryptedd = $user->getPassword();
+                                return password_verify($passwordGiven, $cryptedd);
+                            },
+                        ],
+                ],
+            'driver' =>
+                [
+                    'mur_entities' =>
+                        [
+                            'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                            'cache' => 'array',
+                            'paths' => array(__DIR__ . '/../src/Mur/Entity')
+                        ],
+                    'orm_default' =>
+                        [
+                            'drivers' =>
+                                [
+                                    'Mur\Entity' => 'mur_entities'
+                                ]
+                        ]
+                ]
+        ],
         'controllers' =>
             [
                 'invokables' =>
@@ -156,11 +189,14 @@ return
                     [
                         //acl
                         'mur.acl' => 'Mur\MurAcl',
-                        //form elements
-                        'mur.auth.service' => 'Mur\Service\AuthManager',
+                        //managers
+                        'mur.auth.manager' => 'Mur\Service\AuthManager',
                         'mur.message.manager' => 'Mur\Service\MessageManager',
+                        'mur.user.manager' => 'Mur\Service\UserManager',
                         //Entity
-                        'mur.entity.user'     => 'Mur\Entity\User',
+                        'mur.user.entity'     => 'Mur\Entity\User',
+                        'mur.message.entity'     => 'Mur\Entity\Message',
+
                     ],
                 'factories' =>
                     [
@@ -212,40 +248,6 @@ return
                             [
                             ],
                     ],
-            ],
-        'doctrine' =>
-            [
-                'driver' =>
-                    [
-                        'authentication' => [
-                            'orm_default' => [
-
-                                'object_manager'        => 'Doctrine\ORM\EntityManager',
-                                'identityClass'        => 'Mur\Entity\User',
-                                'identityProperty'     => 'userName',
-                                'credentialProperty'   => 'password',
-
-                                'credential_callable'   => function($user, $passwordGiven) {
-                                    return ($user->getPassword() === crypt($passwordGiven));
-                                },
-                            ],
-                        ],
-                        'mur_entities' =>
-                            [
-                                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                                'cache' => 'array',
-                                'paths' => [__DIR__ . '/../src/Mur/Entity']
-                            ],
-                        'orm_default' =>
-                            [
-
-                                'drivers' =>
-                                    [
-                                        'Mur\Entity' => 'mur_entities'
-                                    ]
-                            ],
-
-                    ]
             ],
 
     ];

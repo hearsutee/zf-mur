@@ -61,9 +61,9 @@ class Message extends ModelAbstract
     }
 
     /**
-     * Get id
+     * Set id
      *
-     * @return integer
+     * @return $this
      */
     public function setId($id)
     {

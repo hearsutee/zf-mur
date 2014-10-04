@@ -16,29 +16,8 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class AuthManager implements ServiceLocatorAwareInterface
 {
-  use ServiceLocatorAwareTrait;
+    use ServiceLocatorAwareTrait;
 
-    public function login(array $data)
-    {
-        $authService = $this
-            ->getServiceLocator()
-            ->get('Zend\Authentication\AuthenticationService');
-
-        $adapter = $authService->getAdapter();
-
-        $adapter->setIdentityValue($data['username']);
-        $adapter->setCredentialValue($data['password']);
-
-        $authResult = $authService->authenticate();
-
-        if($authResult->isValid()) {
-            $identity = $authResult->getIdentity();
-            $authService->getStorage()->write($identity);
-             return $identity ;
-        }
-
-        return false;
-    }
 
     public function register(array $data)
     {
@@ -57,7 +36,49 @@ class AuthManager implements ServiceLocatorAwareInterface
 
     }
 
-    public function logout(){
+    public function login(array $data)
+    {
+        $authService = $this
+            ->getServiceLocator()
+            ->get('Zend\Authentication\AuthenticationService');
 
+        $adapter = $authService->getAdapter();
+
+        $adapter->setIdentityValue($data['username']);
+        $adapter->setCredentialValue($data['password']);
+
+        $authResult = $authService->authenticate();
+
+        if ($authResult->isValid()) {
+            $identity = $authResult->getIdentity();
+            $authService->getStorage()->write($identity);
+            return true;
+        }
+
+        return false;
     }
+
+    public function logout()
+    {
+        $authService = $this
+            ->getServiceLocator()
+            ->get('Zend\Authentication\AuthenticationService');
+
+        $authService->getStorage()->clear();
+    }
+
+
+
+    public function getUserConnected()
+    {
+        $authService = $this
+            ->getServiceLocator()
+            ->get('Zend\Authentication\AuthenticationService');
+
+        $loggedUser = $authService->getIdentity();
+
+        return $loggedUser;
+    }
+
+
 }

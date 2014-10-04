@@ -9,7 +9,6 @@
 namespace Mur\Controller;
 
 
-use Mur\Entity\Message;
 use Mur\Form\MessageFilter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -23,14 +22,15 @@ class MessageController extends AbstractActionController
 
 
     /**
+     * display all messages
      * @return ViewModel
      */
     public function indexAction()
     {
-        $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+        $sm = $this->getServiceLocator();
+        $em = $sm->get('doctrine.entitymanager.orm_default');
 
         $messages = $em->getRepository('Mur\Entity\Message')->findAll();
-
 
         return new ViewModel(
             [
@@ -39,9 +39,12 @@ class MessageController extends AbstractActionController
         );
     }
 
+    /**
+     * @return ViewModel
+     */
     public function createAction()
     {
-       $sm = $this->getServiceLocator();
+        $sm = $this->getServiceLocator();
 //
 //        $sessionUser = $sm
 //            ->get('Zend\Authentication\AuthenticationService')
@@ -52,34 +55,31 @@ class MessageController extends AbstractActionController
 //
 //        if ($acl->isAllowed($sessionUser['role'], 'message', 'create')) {
 
-            $form = $sm->get('FormElementManager')->get('mur.message.form');
+        $form = $sm->get('FormElementManager')->get('mur.message.form');
 
-            $request = $this->getRequest();
+        $request = $this->getRequest();
 
-            if ($request->isPost()) {
-                $form->setInputFilter(new MessageFilter());
+        if ($request->isPost()) {
 
-                $form->setData($request->getPost());
+            $form->setInputFilter(new MessageFilter());
+            $form->setData($request->getPost());
 
-                if ($form->isValid()) {
-                    $data = $form->getData();
+            if ($form->isValid()) {
+                $data = $form->getData();
 
-                    $messageManager = $sm->get('mur.message.manager');
+                $messageManager = $sm->get('mur.message.manager');
 
-                    if ($messageManager->write($data)) {
-                        return $this->redirect()->toRoute('message');
-                    } else {
-                        //pb message non enregistré..
-                    }
+                if ($messageManager->write($data)) {
+                    return $this->redirect()->toRoute('message');
+                } else {
+                    //pb message non enregistré..
                 }
-
             }
-       // }
-        else
-        {
+
+        } // }
+        else {
             //redirect to route access denied
         }
-
 
         return new ViewModel(
             [
@@ -90,13 +90,50 @@ class MessageController extends AbstractActionController
 
     }
 
+    /**
+     * admin update existing message
+     * @return ViewModel
+     */
     public function updateAction()
     {
+        $sm = $this->getServiceLocator();
+
+        $em = $sm->get('doctrine.entitymanager.orm_default');
+        $messageManager = $sm->get('mur.message.manager');
+
+        $idMessage = $this->params()->fromRoute('id');
 
 
-        return new ViewModel();
+        $form = $sm->get('FormElementManager')->get('mur.message.form');
+
+        $request = $this->getRequest();
+
+        if ($request->isPost()) {
+
+            $form->setInputFilter(new MessageFilter());
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+                $data = $form->getData();
+
+                $messageManager = $sm->get('mur.message.manager');
+
+                if ($messageManager->update($idMessage, $data)) {
+                    return $this->redirect()->toRoute('message');
+                } else {
+                    //pb message non enregistré..
+                }
+            }
+
+
+            return new ViewModel();
+        }
     }
 
+    /**
+     * admin delete existing message
+     * @return ViewModel
+     */
     public function deleteAction()
     {
         return new ViewModel();
