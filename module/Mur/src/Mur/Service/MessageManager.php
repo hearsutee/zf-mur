@@ -34,7 +34,7 @@ class MessageManager implements ServiceLocatorAwareInterface
         $virtualUser->setId(654654)
             ->setUserName('Temp-Test')
              ->setPassword('Temp-Test123')
-             ->setIsAdmin(false);
+             ->setRole('member');
         $em->persist($virtualUser);
 
         $message->setUser($virtualUser);
@@ -43,5 +43,7 @@ class MessageManager implements ServiceLocatorAwareInterface
 
         $em->persist($message);
         $em->flush();
+
+        return true;
     }
 } 

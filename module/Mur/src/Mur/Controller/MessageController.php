@@ -67,7 +67,7 @@ class MessageController extends AbstractActionController
                     $messageManager = $sm->get('mur.message.manager');
 
                     if ($messageManager->write($data)) {
-                        return $this->redirect()->toRoute('message/index');
+                        return $this->redirect()->toRoute('message');
                     } else {
                         //pb message non enregistré..
                     }

@@ -134,7 +134,9 @@ class User extends ModelAbstract
     }
 
 
-
+    public function __toString(){
+        return $this->userName;
+    }
 
 
 
