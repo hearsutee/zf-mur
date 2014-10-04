@@ -30,8 +30,10 @@ class MessageManager implements ServiceLocatorAwareInterface
         $hydrator->hydrate($data, $message);
 
         $authManager = $this->getServiceLocator()->get('mur.auth.manager');
+
         $userConnected = $authManager->getUserConnected();
 
+//        die(var_dump($userConnected));
         $message->setUser($userConnected);
         $message->setDateCreation(new \DateTime('now'));
         $this->record($message);
@@ -40,15 +42,15 @@ class MessageManager implements ServiceLocatorAwareInterface
         return true;
     }
 
-    public function update($idMessage, $data)
+    public function update($message, $data)
     {
-
-        $messageToUpdate = $this->getMessageById($idMessage);
+        $sm = $this->getServiceLocator();
+        $em = $sm->get('doctrine.entitymanager.orm_default');
 
         $hydrator = new DoctrineObject($em);
-        $hydrator->hydrate($data, $messageToUpdate);
+        $hydrator->hydrate($data, $message);
 
-        $this->record($messageToUpdate);
+        $this->record($message);
 
         return true;
     }

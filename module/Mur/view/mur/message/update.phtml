@@ -1,0 +1,15 @@
+<h1>create message  !</h1>
+
+<?php
+
+
+$form = $this->form;
+
+$form->prepare();
+
+echo $this->form()->openTag($form);
+
+echo $this->formTextarea($form->get('content'));
+
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag();

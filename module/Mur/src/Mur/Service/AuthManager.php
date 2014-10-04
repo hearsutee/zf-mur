@@ -71,13 +71,29 @@ class AuthManager implements ServiceLocatorAwareInterface
 
     public function getUserConnected()
     {
+
         $authService = $this
             ->getServiceLocator()
             ->get('Zend\Authentication\AuthenticationService');
 
         $loggedUser = $authService->getIdentity();
 
+
         return $loggedUser;
+    }
+
+    public function getRole()
+    {
+
+        $authService = $this
+            ->getServiceLocator()
+            ->get('Zend\Authentication\AuthenticationService');
+
+        $loggedUser = $authService->getIdentity();
+        $role =  $loggedUser->getRole();
+
+
+        return $role;
     }
 
 

@@ -1,23 +1,28 @@
 <h1>Index  ! Messages</h1>
 
 <h2>Tous les messages :</h2>
-<table>
-    <thead>
-    <th>id</th>
-    <th>contenu</th>
-<!--    <th>isAdmin ?</th>-->
-    <th>Auteur</th>
-    </thead>
-    <tbody>
+
+<a href="message/create">Write a message</a>
+
 <?php foreach($this->messages as $message ): ?>
 
-   <tr>
-       <td> <?= $message['id'] ?> </td>
-       <td> <?= $message['content'] ?> </td>
-<!--       <td> --><?//= $message['user']['isAdmin'] == 0 ? 'non' : 'oui'; ?><!-- </td>-->
-       <td> <?= $message['user'] ?> </td>
-   </tr>
+    <fieldset>
+        <legend>
+            by : <?= $message['user'] ?> ,  <?=  $this->dateFormat(
+                $message['dateCreation'],
+
+                IntlDateFormatter::LONG, // date
+                IntlDateFormatter::MEDIUM, // time
+                "fr"); ?>
+        </legend>
+        id : <?= $message['id'] ?> <br/>
+        <?= $message['content'] ?>
+    </fieldset>
+
+
+
+
+
+    </tr>
 
 <?php endforeach ?>
-    </tbody>
-</table>

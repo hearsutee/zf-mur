@@ -22,6 +22,7 @@ class AuthenticationController extends AbstractActionController
 {
 
     /**
+     * register new user
      * @return \Zend\Http\Response|ViewModel
      */
     public function registerAction()
@@ -39,7 +40,7 @@ class AuthenticationController extends AbstractActionController
 
                 $data = $form->getData();
 
-                $authService = $sm->get('mur.auth.service');
+                $authService = $sm->get('mur.auth.manager');
                 $authService->register($data);
 
                 return $this->redirect()->toRoute('home');
@@ -55,11 +56,18 @@ class AuthenticationController extends AbstractActionController
     }
 
     /**
+     * login user
      * @return \Zend\Http\Response|ViewModel
      */
     public function loginAction()
     {
         $sm = $this->getServiceLocator();
+        $authManager = $sm->get('mur.auth.manager');
+
+        if($authManager->getUserConnected() != false){
+            return $this->redirect()->toRoute('message');
+        }
+
         $form = $sm->get('FormElementManager')->get('mur.login.form');
 
         $request = $this->getRequest();
@@ -75,11 +83,11 @@ class AuthenticationController extends AbstractActionController
 
                 $data = $form->getData();
 
-                $authManager = $sm->get('mur.auth.manager');
 
-                if ($authService->login($data)) {
 
-                    return $this->redirect()->toRoute('user');
+                if ($authManager->login($data)) {
+
+                    return $this->redirect()->toRoute('message');
                 } else {
                    //wrong credidentials
                 }
@@ -95,5 +103,18 @@ class AuthenticationController extends AbstractActionController
             ]
         );
 
+    }
+
+    /**
+     * logout user
+     * @return \Zend\Http\Response
+     */
+    public function logoutAction()
+    {
+        $sm = $this->getServiceLocator();
+        $authManager = $sm->get('mur.auth.manager');
+        $authManager->logout();
+
+        return $this->redirect()->toRoute('home');
     }
 }

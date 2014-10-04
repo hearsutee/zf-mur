@@ -10,6 +10,7 @@ namespace MurTest\Entity;
 
 
 use Mur\Entity\Message;
+use Mur\Entity\User;
 use Mur\Service\MessageManager;
 use Mur\Test\PhpunitTestCase;
 use Zend\Form\Element\DateTime;
@@ -34,68 +35,64 @@ class MessageManagerTest extends PhpunitTestCase
         $this->instance = null;
     }
 
-//    /**
-//     * test register
-//     */
-//    public function testCreate()
-//    {
-//        $dataFixture = [
-//            'content' => 'loremIpsum?loremIpsum?  !  loremIpsum?
-//            loremIpsum?loremIpsum?loremIpsum?loremIpsum?   !  loremIpsum?
-//            loremIpsum?loremIpsum?',
-//
-//        ];
-//
-//        $userConnectedMock = $this->getMockFromArray('Mur\Entity\User', false,
-//            [
-//
-//            ]);
-//
-//        $messageMock = $this->getMockFromArray('Mur\Entity\Message', false,
-//            [
-//                'exchangeArray' =>
-//                    [
-//                        'with' => $dataFixture,
-//                    ],
-//
-//                'flush' =>
-//                    [
-//
-//                    ]
-//            ]);
-//
+
+    public function testUpdate()
+    {
+
+        $message = new Message();
+        $user = new User();
+
+        $data =
+            [
+                'id' => 1287,
+                'content' => 'kzfoznfzlkenf',
+                'date' => new \DateTime('now'),
+                'user' => $user
+            ];
+
+        $message
+            ->setId($data['id'])
+            ->setContent($data['content'])
+            ->setDateCreation($data['date'])
+            ->setUser($data['user']);
+
+        $newMessage = clone $message;
+
+        $newData =
+            [
+                'id' => 1287,
+                'content' => 'nouveau contenu !',
+                'date' => new \DateTime('now'),
+                'user' => $user
+            ];
+
+        $newMessage
+            ->setContent($newData['content']);
+
+
+
 //        $doctrineEmMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false,
 //            [
 //
-//                'persist' =>
+//                'getRepository' =>
 //                    [
-//                        'with' => $messageMock,
+//                        'with' => 'Mur\Entity\Message',
 //                    ],
-//
-//                'flush' =>
-//                    [
-//
-//                    ]
 //
 //            ]);
 //
-//        $smMock = $this->getMockFromArray('Zend\ServiceManager\ServiceManager', false,
-//            [
-//
-//                'get' =>
-//                    [
-//                        'with' => 'doctrine.entitymanager.orm_default',
-//                        'will' => $this->returnValue($doctrineEmMock)
-//                    ],
-//
-//
-//            ]);
-//
-//        $this->instance->setServiceLocator($smMock);
-//
-//        $this->instance->register($dataFixture);
-//
-//    }
+        $smMock = $this->getMockFromArray('Zend\ServiceManager\ServiceManager', false,
+            [
+
+
+            ]);
+
+        $this->setInaccessiblePropertyValue('serviceLocator', $smMock);
+                $this->assertTrue($this->instance->update($message, $newData));
+
+
+    }
+
     public function testRecord()
     {
         $entityMock = $this->getMockFromArray('Mur\Entity\User', false,
@@ -109,7 +106,7 @@ class MessageManagerTest extends PhpunitTestCase
 
                 'persist' =>
                     [
-                        //test ok mais impossible de valider l'assertion comme quoi persist est appelé avec le mock ?
+                        //test ok mais impossible de valider l'assertion comme quoi persist est appelée avec le mock ?
 //                        'with' => $entityMock,
                     ],
 
@@ -137,32 +134,23 @@ class MessageManagerTest extends PhpunitTestCase
 
     }
 
+
     public function testGetMessageById()
     {
 
 
-        $messageMock = $this->getMockFromArray('Mur\Entity\Message', false,
-            [
-                'setContent' => [] ,
-                'setId' => [] ,
-                'setDateCreation' => [] ,
-                'setUser' => [] ,
+        $message = new Message();
 
-            ]);
-
-        $userMock = $this->getMockFromArray('Mur\Entity\User', false,
-            [
-
-            ]);
+        $user = new User();
 
         $dataFixture = [
             'id' => 123,
             'content' => 'kzfoznfzlkenf',
             'date' => new \DateTime('now'),
-            'user' => $userMock
+            'user' => $user
         ];
 
-        $messageMock
+        $message
             ->setId($dataFixture['id'])
             ->setContent($dataFixture['content'])
             ->setDateCreation($dataFixture['date'])
@@ -174,7 +162,7 @@ class MessageManagerTest extends PhpunitTestCase
                 'findOneById' =>
                     [
                         'with' => $dataFixture['id'],
-                        'will' => $this->returnValue($messageMock)
+                        'will' => $this->returnValue($message)
                     ],
 
             ]);
@@ -203,7 +191,7 @@ class MessageManagerTest extends PhpunitTestCase
 
             ]);
         $this->setInaccessiblePropertyValue('serviceLocator', $smMock);
-        $this->instance->getMessageById($dataFixture['id']);
+        $this->assertSame($message, $this->instance->getMessageById($dataFixture['id']));
     }
 
 }

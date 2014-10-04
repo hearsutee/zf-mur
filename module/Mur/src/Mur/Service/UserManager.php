@@ -21,7 +21,9 @@ class MessageManager implements ServiceLocatorAwareInterface
 
     public function create(array $data)
     {
-        $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+        $sm = $this->getServiceLocator();
+
+        $em = $sm->get('doctrine.entitymanager.orm_default');
 
         $user = new User();
 

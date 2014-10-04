@@ -45,6 +45,12 @@ class UserController extends AbstractActionController
     public function createAction()
     {
         $sm = $this->getServiceLocator();
+        $authManager = $sm->get('mur.auth.manager');
+
+        if (!$authManager->getUserConnected() || $authManager->getRole() != 'admin' ) {
+            return $this->redirect()->toRoute('home');
+        }
+
         $form = $sm->get('FormElementManager')->get('Mur\Form\UserForm');
 
         return new ViewModel(

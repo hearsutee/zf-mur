@@ -83,6 +83,7 @@ return
                                             ],
                                     ],
                             ],
+//
                         'message' =>
                             [
                                 'type' => 'Zend\Mvc\Router\Http\Literal',
@@ -100,6 +101,21 @@ return
                                 'may_terminate' => true,
                                 'child_routes' =>
                                     [
+                                        'update' =>
+                                        [
+                                            'type' => 'Zend\Mvc\Router\Http\Segment',
+                                            'options' =>
+                                                [
+                                                    'route' => '/update/:id',
+                                                    'defaults' =>
+                                            [
+                                                '__NAMESPACE__' => 'Mur\Controller',
+                                                'controller' => 'Message',
+                                                'action' => 'update',
+                                            ],
+                                                ],
+                                        ],
+
                                         'default' =>
                                             [
                                                 'type' => 'Segment',
@@ -118,40 +134,40 @@ return
                                     ],
                             ],
                         'user' =>
-                            [
-                                'type' => 'Zend\Mvc\Router\Http\Literal',
-                                'options' =>
-                                    [
-                                        'route' => '/user',
-                                        'defaults' =>
-                                            [
-                                                '__NAMESPACE__' => 'Mur\Controller',
-                                                'controller' => 'User',
-                                                'action' => 'index',
-                                            ],
+                        [
+                            'type' => 'Zend\Mvc\Router\Http\Literal',
+                            'options' =>
+                                [
+                                    'route' => '/user',
+                                    'defaults' =>
+                                        [
+                                            '__NAMESPACE__' => 'Mur\Controller',
+                                            'controller' => 'User',
+                                            'action' => 'index',
+                                        ],
 
-                                    ],
-                                'may_terminate' => true,
-                                'child_routes' =>
-                                    [
-                                        'default' =>
-                                            [
-                                                'type' => 'Segment',
-                                                'options' =>
-                                                    [
-                                                        'route' => '[/:action]',
-                                                        'constraints' =>
-                                                            [
+                                ],
+                            'may_terminate' => true,
+                            'child_routes' =>
+                                [
+                                    'default' =>
+                                        [
+                                            'type' => 'Segment',
+                                            'options' =>
+                                                [
+                                                    'route' => '[/:action]',
+                                                    'constraints' =>
+                                                        [
 //                                                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                                            ],
-                                                        'defaults' =>
-                                                            [
-                                                            ],
-                                                    ],
-                                            ],
-                                    ],
-                            ],
+                                                            'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                        ],
+                                                    'defaults' =>
+                                                        [
+                                                        ],
+                                                ],
+                                        ],
+                                ],
+                        ],
 
                         'register' =>
                             [
@@ -164,6 +180,23 @@ return
                                                 '__NAMESPACE__' => 'Mur\Controller',
                                                 'controller' => 'Authentication',
                                                 'action' => 'register',
+                                            ],
+
+                                    ],
+                                'may_terminate' => true,
+
+                            ],
+                        'logout' =>
+                            [
+                                'type' => 'Zend\Mvc\Router\Http\Literal',
+                                'options' =>
+                                    [
+                                        'route' => '/logout',
+                                        'defaults' =>
+                                            [
+                                                '__NAMESPACE__' => 'Mur\Controller',
+                                                'controller' => 'Authentication',
+                                                'action' => 'logout',
                                             ],
 
                                     ],
@@ -196,6 +229,7 @@ return
                         //Entity
                         'mur.user.entity'     => 'Mur\Entity\User',
                         'mur.message.entity'     => 'Mur\Entity\Message',
+                        //form elements
 
                     ],
                 'factories' =>

@@ -28,6 +28,12 @@ class MessageController extends AbstractActionController
     public function indexAction()
     {
         $sm = $this->getServiceLocator();
+        $authManager = $sm->get('mur.auth.manager');
+
+        if (!$authManager->getUserConnected()) {
+            return $this->redirect()->toRoute('home');
+        }
+
         $em = $sm->get('doctrine.entitymanager.orm_default');
 
         $messages = $em->getRepository('Mur\Entity\Message')->findAll();
@@ -45,15 +51,11 @@ class MessageController extends AbstractActionController
     public function createAction()
     {
         $sm = $this->getServiceLocator();
-//
-//        $sessionUser = $sm
-//            ->get('Zend\Authentication\AuthenticationService')
-//            ->getStorage()
-//            ->read()['user'];
-//        $acl = $this->getServiceLocator()
-//            ->get('mur.acl');
-//
-//        if ($acl->isAllowed($sessionUser['role'], 'message', 'create')) {
+        $authManager = $sm->get('mur.auth.manager');
+
+        if (!$authManager->getUserConnected()) {
+            return $this->redirect()->toRoute('home');
+        }
 
         $form = $sm->get('FormElementManager')->get('mur.message.form');
 
@@ -65,6 +67,7 @@ class MessageController extends AbstractActionController
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
+
                 $data = $form->getData();
 
                 $messageManager = $sm->get('mur.message.manager');
@@ -76,9 +79,6 @@ class MessageController extends AbstractActionController
                 }
             }
 
-        } // }
-        else {
-            //redirect to route access denied
         }
 
         return new ViewModel(
@@ -97,14 +97,21 @@ class MessageController extends AbstractActionController
     public function updateAction()
     {
         $sm = $this->getServiceLocator();
+        $authManager = $sm->get('mur.auth.manager');
 
-        $em = $sm->get('doctrine.entitymanager.orm_default');
+        if (!$authManager->getUserConnected() || $authManager->getRole() != 'admin' ) {
+            return $this->redirect()->toRoute('home');
+        }
+
         $messageManager = $sm->get('mur.message.manager');
 
         $idMessage = $this->params()->fromRoute('id');
-
+        $messageToUpdate = $messageManager->getMessageById($idMessage);
 
         $form = $sm->get('FormElementManager')->get('mur.message.form');
+
+        // une meilleur maniere de faire ? pour tous les champs à la fois ?
+        $form->get('content')->setValue($messageToUpdate->getContent());
 
         $request = $this->getRequest();
 
@@ -116,18 +123,20 @@ class MessageController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
 
-                $messageManager = $sm->get('mur.message.manager');
-
-                if ($messageManager->update($idMessage, $data)) {
+                if ($messageManager->update($messageToUpdate, $data)) {
                     return $this->redirect()->toRoute('message');
                 } else {
                     //pb message non enregistré..
                 }
             }
 
-
-            return new ViewModel();
         }
+
+        return new ViewModel(
+            [
+                'form' => $form
+            ]
+        );
     }
 
     /**
