@@ -14,11 +14,18 @@ use Mur\Entity\User;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
+/**
+ * Class AuthManager
+ * @package Mur\Service
+ */
 class AuthManager implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
 
+    /**
+     * @param array $data
+     */
     public function register(array $data)
     {
         $user = new User();
@@ -33,9 +40,12 @@ class AuthManager implements ServiceLocatorAwareInterface
         $em->persist($user);
         $em->flush();
 
-
     }
 
+    /**
+     * @param array $data
+     * @return bool
+     */
     public function login(array $data)
     {
         $authService = $this
@@ -58,6 +68,9 @@ class AuthManager implements ServiceLocatorAwareInterface
         return false;
     }
 
+    /**
+     *
+     */
     public function logout()
     {
         $authService = $this
@@ -68,7 +81,9 @@ class AuthManager implements ServiceLocatorAwareInterface
     }
 
 
-
+    /**
+     * @return User
+     */
     public function getUserConnected()
     {
 
@@ -78,10 +93,12 @@ class AuthManager implements ServiceLocatorAwareInterface
 
         $loggedUser = $authService->getIdentity();
 
-
         return $loggedUser;
     }
 
+    /**
+     * @return string
+     */
     public function getRole()
     {
 

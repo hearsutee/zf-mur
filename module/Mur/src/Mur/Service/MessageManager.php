@@ -15,10 +15,18 @@ use Mur\Entity\User;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
+/**
+ * Class MessageManager
+ * @package Mur\Service
+ */
 class MessageManager implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
+    /**
+     * @param array $data
+     * @return bool
+     */
     public function write(array $data)
     {
         $sm = $this->getServiceLocator();
@@ -33,7 +41,6 @@ class MessageManager implements ServiceLocatorAwareInterface
 
         $userConnected = $authManager->getUserConnected();
 
-//        die(var_dump($userConnected));
         $message->setUser($userConnected);
         $message->setDateCreation(new \DateTime('now'));
         $this->record($message);
@@ -42,6 +49,11 @@ class MessageManager implements ServiceLocatorAwareInterface
         return true;
     }
 
+    /**
+     * @param $message
+     * @param $data
+     * @return bool
+     */
     public function update($message, $data)
     {
         $sm = $this->getServiceLocator();
@@ -55,6 +67,10 @@ class MessageManager implements ServiceLocatorAwareInterface
         return true;
     }
 
+    /**
+     * @param $message
+     * @return bool
+     */
     public function delete($message)
     {
         $sm = $this->getServiceLocator();
@@ -66,6 +82,10 @@ class MessageManager implements ServiceLocatorAwareInterface
         return true;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function getMessageById($id)
     {
         $sm = $this->getServiceLocator();
@@ -78,6 +98,9 @@ class MessageManager implements ServiceLocatorAwareInterface
         return $message;
     }
 
+    /**
+     * @param $object
+     */
     public function record($object)
     {
         $sm = $this->getServiceLocator();

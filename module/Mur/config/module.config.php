@@ -63,25 +63,7 @@ return
                                             ],
 
                                     ],
-                                'may_terminate' => true,
-                                'child_routes' =>
-                                    [
-                                        'default' =>
-                                            [
-                                                'type' => 'Segment',
-                                                'options' =>
-                                                    [
-                                                        'route' => '[/:action]',
-                                                        'constraints' =>
-                                                            [
-                                                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                                            ],
-                                                        'defaults' =>
-                                                            [
-                                                            ],
-                                                    ],
-                                            ],
-                                    ],
+
                             ],
 //
                         'message' =>
@@ -115,6 +97,20 @@ return
                                             ],
                                                 ],
                                         ],
+                                        'delete' =>
+                                            [
+                                                'type' => 'Zend\Mvc\Router\Http\Segment',
+                                                'options' =>
+                                                    [
+                                                        'route' => '/delete/:id',
+                                                        'defaults' =>
+                                                            [
+                                                                '__NAMESPACE__' => 'Mur\Controller',
+                                                                'controller' => 'Message',
+                                                                'action' => 'delete',
+                                                            ],
+                                                    ],
+                                            ],
 
                                         'default' =>
                                             [
@@ -158,7 +154,7 @@ return
                                                     'route' => '[/:action]',
                                                     'constraints' =>
                                                         [
-//                                                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+//
                                                             'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                                         ],
                                                     'defaults' =>

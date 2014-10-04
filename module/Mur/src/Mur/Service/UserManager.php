@@ -15,10 +15,18 @@ use Mur\Entity\User;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
+/**
+ * Class MessageManager
+ * @package Mur\Service
+ */
 class MessageManager implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
+    /**
+     * @param array $data
+     * @return bool
+     */
     public function create(array $data)
     {
         $sm = $this->getServiceLocator();
