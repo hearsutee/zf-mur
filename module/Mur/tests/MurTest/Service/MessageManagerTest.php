@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Manu
- * Date: 02/10/2014
- * Time: 22:49
- */
 
 namespace MurTest\Entity;
 
@@ -15,8 +9,15 @@ use Mur\Service\MessageManager;
 use Mur\Test\PhpunitTestCase;
 use Zend\Form\Element\DateTime;
 
+/**
+ * Class MessageManagerTest
+ * @package MurTest\Entity
+ */
 class MessageManagerTest extends PhpunitTestCase
 {
+    /**
+     * @var
+     */
     protected $instance;
 
     /**
@@ -36,6 +37,9 @@ class MessageManagerTest extends PhpunitTestCase
     }
 
 
+    /**
+     * test update
+     */
     public function testUpdate()
     {
 
@@ -93,6 +97,9 @@ class MessageManagerTest extends PhpunitTestCase
 
     }
 
+    /**
+     * test record
+     */
     public function testRecord()
     {
         $entityMock = $this->getMockFromArray('Mur\Entity\User', false,
@@ -135,6 +142,9 @@ class MessageManagerTest extends PhpunitTestCase
     }
 
 
+    /**
+     * test get message by id
+     */
     public function testGetMessageById()
     {
 

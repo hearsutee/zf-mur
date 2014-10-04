@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Manu
- * Date: 02/10/2014
- * Time: 22:49
- */
 
 namespace MurTest\Entity;
 
@@ -94,11 +88,5 @@ class AuthManagerTest extends PhpunitTestCase
         $this->instance->register($dataFixture);
 
     }
-
-//    public function testLogin()
-//    {
-//
-//    }
-
 
 }

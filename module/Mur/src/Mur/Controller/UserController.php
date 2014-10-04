@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Manu
- * Date: 01/10/2014
- * Time: 09:59
- */
+
 
 namespace Mur\Controller;
 
