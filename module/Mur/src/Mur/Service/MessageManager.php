@@ -55,6 +55,17 @@ class MessageManager implements ServiceLocatorAwareInterface
         return true;
     }
 
+    public function delete($message)
+    {
+        $sm = $this->getServiceLocator();
+        $em = $sm->get('doctrine.entitymanager.orm_default');
+
+        $em->remove($message);
+        $em->flush();
+
+        return true;
+    }
+
     public function getMessageById($id)
     {
         $sm = $this->getServiceLocator();

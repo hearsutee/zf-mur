@@ -99,7 +99,7 @@ class MessageController extends AbstractActionController
         $sm = $this->getServiceLocator();
         $authManager = $sm->get('mur.auth.manager');
 
-        if (!$authManager->getUserConnected() || $authManager->getRole() != 'admin' ) {
+        if (!$authManager->getUserConnected() || $authManager->getRole() != 'admin') {
             return $this->redirect()->toRoute('home');
         }
 
@@ -145,8 +145,27 @@ class MessageController extends AbstractActionController
      */
     public function deleteAction()
     {
-        return new ViewModel();
+        $sm = $this->getServiceLocator();
+        $authManager = $sm->get('mur.auth.manager');
+
+        if (!$authManager->getUserConnected() || $authManager->getRole() != 'admin') {
+            return $this->redirect()->toRoute('home');
+        }
+
+        $messageManager = $sm->get('mur.message.manager');
+
+        $idMessage = $this->params()->fromRoute('id');
+        $messageToDelete = $messageManager->getMessageById($idMessage);
+
+        $messageManager->delete($messageToDelete);
+
+        return $this->redirect()->toRoute('message');
+
     }
 
-
 }
+
+
+
+
+
