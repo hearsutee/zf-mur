@@ -17,10 +17,13 @@ use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\Acl;
 use Zend\Permissions\Acl\Role\GenericRole as Role;
 use Zend\Permissions\Acl\Resource\GenericResource as Resource;
+use ZF\Apigility\Provider\ApigilityProviderInterface;
 
 class Module implements
     FormElementProviderInterface,
-    AutoloaderProviderInterface
+    AutoloaderProviderInterface,
+    ApigilityProviderInterface
+
 {
     public function onBootstrap(MvcEvent $e)
     {
@@ -53,6 +56,8 @@ class Module implements
                 ],
         ];
     }
+
+
 
     public function getFormElementConfig()
     {

@@ -111,6 +111,12 @@ class User extends ModelAbstract
         return $this;
     }
 
+    static function cryptPassword($user, $passwordGiven)
+    {
+        $cryptedd = $user->getPassword();
+        return password_verify($passwordGiven, $cryptedd);
+    }
+
     /**
      * Set role
      *
@@ -135,11 +141,10 @@ class User extends ModelAbstract
     }
 
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->userName;
     }
-
-
 
 
 }

@@ -1,41 +1,42 @@
+
 <?php
 
 
 return
     [
         'doctrine' =>
-        [
-            'authentication' =>
-                [
-                    'orm_default' =>
-                        [
-                            'object_manager'        => 'Doctrine\ORM\EntityManager',
-                            'identity_class'        => 'Mur\Entity\User',
-                            'identity_property'     => 'userName',
-                            'credential_property'   => 'password',
-                            'credential_callable'   => function($user, $passwordGiven) {
-                                $cryptedd = $user->getPassword();
-                                return password_verify($passwordGiven, $cryptedd);
-                            },
-                        ],
-                ],
-            'driver' =>
-                [
-                    'mur_entities' =>
-                        [
-                            'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                            'cache' => 'array',
-                            'paths' => array(__DIR__ . '/../src/Mur/Entity')
-                        ],
-                    'orm_default' =>
-                        [
-                            'drivers' =>
-                                [
-                                    'Mur\Entity' => 'mur_entities'
-                                ]
-                        ]
-                ]
-        ],
+            [
+                'authentication' =>
+                    [
+                        'orm_default' =>
+                            [
+                                'object_manager'        => 'Doctrine\ORM\EntityManager',
+                                'identity_class'        => 'Mur\Entity\User',
+                                'identity_property'     => 'userName',
+                                'credential_property'   => 'password',
+                                'credential_callable'   => function($user, $passwordGiven) {
+                                    $cryptedd = $user->getPassword();
+                                    return password_verify($passwordGiven, $cryptedd);
+                                },
+                            ],
+                    ],
+                'driver' =>
+                    [
+                        'mur_entities' =>
+                            [
+                                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                                'cache' => 'array',
+                                'paths' => array(__DIR__ . '/../src/Mur/Entity')
+                            ],
+                        'orm_default' =>
+                            [
+                                'drivers' =>
+                                    [
+                                        'Mur\Entity' => 'mur_entities'
+                                    ]
+                            ]
+                    ]
+            ],
         'controllers' =>
             [
                 'invokables' =>
@@ -84,19 +85,19 @@ return
                                 'child_routes' =>
                                     [
                                         'update' =>
-                                        [
-                                            'type' => 'Zend\Mvc\Router\Http\Segment',
-                                            'options' =>
-                                                [
-                                                    'route' => '/update/:id',
-                                                    'defaults' =>
                                             [
-                                                '__NAMESPACE__' => 'Mur\Controller',
-                                                'controller' => 'Message',
-                                                'action' => 'update',
+                                                'type' => 'Zend\Mvc\Router\Http\Segment',
+                                                'options' =>
+                                                    [
+                                                        'route' => '/update/:id',
+                                                        'defaults' =>
+                                                            [
+                                                                '__NAMESPACE__' => 'Mur\Controller',
+                                                                'controller' => 'Message',
+                                                                'action' => 'update',
+                                                            ],
+                                                    ],
                                             ],
-                                                ],
-                                        ],
                                         'delete' =>
                                             [
                                                 'type' => 'Zend\Mvc\Router\Http\Segment',
@@ -130,40 +131,40 @@ return
                                     ],
                             ],
                         'user' =>
-                        [
-                            'type' => 'Zend\Mvc\Router\Http\Literal',
-                            'options' =>
-                                [
-                                    'route' => '/user',
-                                    'defaults' =>
-                                        [
-                                            '__NAMESPACE__' => 'Mur\Controller',
-                                            'controller' => 'User',
-                                            'action' => 'index',
-                                        ],
+                            [
+                                'type' => 'Zend\Mvc\Router\Http\Literal',
+                                'options' =>
+                                    [
+                                        'route' => '/user',
+                                        'defaults' =>
+                                            [
+                                                '__NAMESPACE__' => 'Mur\Controller',
+                                                'controller' => 'User',
+                                                'action' => 'index',
+                                            ],
 
-                                ],
-                            'may_terminate' => true,
-                            'child_routes' =>
-                                [
-                                    'default' =>
-                                        [
-                                            'type' => 'Segment',
-                                            'options' =>
-                                                [
-                                                    'route' => '[/:action]',
-                                                    'constraints' =>
-                                                        [
+                                    ],
+                                'may_terminate' => true,
+                                'child_routes' =>
+                                    [
+                                        'default' =>
+                                            [
+                                                'type' => 'Segment',
+                                                'options' =>
+                                                    [
+                                                        'route' => '[/:action]',
+                                                        'constraints' =>
+                                                            [
 //
-                                                            'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                                        ],
-                                                    'defaults' =>
-                                                        [
-                                                        ],
-                                                ],
-                                        ],
-                                ],
-                        ],
+                                                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                            ],
+                                                        'defaults' =>
+                                                            [
+                                                            ],
+                                                    ],
+                                            ],
+                                    ],
+                            ],
 
                         'register' =>
                             [
@@ -281,3 +282,4 @@ return
             ],
 
     ];
+
