@@ -16,26 +16,24 @@ class MessageManager implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
+
     /**
      * @param array $data
      * @return bool
      */
     public function write(array $data)
     {
-        $sm = $this->getServiceLocator();
-        $em = $sm->get('doctrine.entitymanager.orm_default');
 
         $message = new Message();
 
-        $hydrator = new DoctrineObject($em);
-        $hydrator->hydrate($data, $message);
+        $this->hydrate($data, $message);
 
         $authManager = $this->getServiceLocator()->get('mur.auth.manager');
-
         $userConnected = $authManager->getUserConnected();
 
         $message->setUser($userConnected);
         $message->setDateCreation(new \DateTime('now'));
+
         $this->record($message);
 
 
@@ -43,33 +41,32 @@ class MessageManager implements ServiceLocatorAwareInterface
     }
 
     /**
-     * @param $message
-     * @param $data
+     * @param array $data
+     * @param $entity
      * @return bool
      */
-    public function update($message, $data)
+    public function update(array $data, $entity)
     {
-        $sm = $this->getServiceLocator();
-        $em = $sm->get('doctrine.entitymanager.orm_default');
 
-        $hydrator = new DoctrineObject($em);
-        $hydrator->hydrate($data, $message);
+       $this->hydrate($data, $entity);
 
-        $this->record($message);
+        $this->record($entity);
 
         return true;
     }
 
+
     /**
-     * @param $message
+     * @param $entity
      * @return bool
      */
-    public function delete($message)
+    public function delete($entity)
     {
-        $sm = $this->getServiceLocator();
-        $em = $sm->get('doctrine.entitymanager.orm_default');
+        $em = $this
+            ->getServiceLocator()
+            ->get('doctrine.entitymanager.orm_default');
 
-        $em->remove($message);
+        $em->remove($entity);
         $em->flush();
 
         return true;
@@ -81,8 +78,9 @@ class MessageManager implements ServiceLocatorAwareInterface
      */
     public function getMessageById($id)
     {
-        $sm = $this->getServiceLocator();
-        $em = $sm->get('doctrine.entitymanager.orm_default');
+        $em = $this
+            ->getServiceLocator()
+            ->get('doctrine.entitymanager.orm_default');
 
         $message = $em
             ->getRepository('Mur\Entity\Message')
@@ -91,15 +89,32 @@ class MessageManager implements ServiceLocatorAwareInterface
         return $message;
     }
 
-    /**
-     * @param $object
-     */
-    public function record($object)
-    {
-        $sm = $this->getServiceLocator();
-        $em = $sm->get('doctrine.entitymanager.orm_default');
 
-        $em->persist($object);
+
+    /**
+     * @param $entity
+     */
+    public function record($entity)
+    {
+        $em = $this
+            ->getServiceLocator()
+            ->get('doctrine.entitymanager.orm_default');
+
+        $em->persist($entity);
         $em->flush();
+    }
+
+    /**
+     * @param array $data
+     * @param $entity
+     */
+    public function hydrate(array $data, $entity)
+    {
+        $em = $this
+            ->getServiceLocator()
+            ->get('doctrine.entitymanager.orm_default');
+
+        $hydrator = new DoctrineObject($em);
+        $hydrator->hydrate($data, $entity);
     }
 } 

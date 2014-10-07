@@ -118,7 +118,7 @@ class MessageController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
 
-                if ($messageManager->update($messageToUpdate, $data)) {
+                if ($messageManager->update($data, $messageToUpdate)) {
                     return $this->redirect()->toRoute('message');
                 } else {
                     //pb message non enregistré..

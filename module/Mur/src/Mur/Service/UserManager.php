@@ -11,7 +11,7 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  * Class MessageManager
  * @package Mur\Service
  */
-class MessageManager implements ServiceLocatorAwareInterface
+class UserManager implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 

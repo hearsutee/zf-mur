@@ -21,8 +21,8 @@ use ZF\Apigility\Provider\ApigilityProviderInterface;
 
 class Module implements
     FormElementProviderInterface,
-    AutoloaderProviderInterface,
-    ApigilityProviderInterface
+    AutoloaderProviderInterface
+
 
 {
     public function onBootstrap(MvcEvent $e)

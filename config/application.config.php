@@ -22,9 +22,12 @@ return array(
         'ZF\\Rpc',
         'ZF\\Versioning',
         'ZF\\DevelopmentMode',
-        'StatusLib',
+
         'Mur',
-        'MurApi'
+        20 => 'Db',
+        'Phpro\\DoctrineHydrationModule',
+        'ZF\\Apigility\\Doctrine\\Server',
+        'TestApi'
     ),
     'module_listener_options' => array(
         'module_paths' => array(
