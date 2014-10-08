@@ -38,69 +38,111 @@ class MessageManagerTest extends PhpunitTestCase
     }
 
 
-    /**
-     * test update
-     */
-    public function testUpdate()
+//    /**
+//     * test update
+//     */
+//    public function testUpdate()
+//    {
+//
+//        $message = new Message();
+//        $user = new User();
+//
+//        $data =
+//            [
+//                'id' => 1287,
+//                'content' => 'kzfoznfzlkenf',
+//                'date' => new \DateTime('now'),
+//                'user' => $user
+//            ];
+//
+//        $message
+//            ->setId($data['id'])
+//            ->setContent($data['content'])
+//            ->setDateCreation($data['date'])
+//            ->setUser($data['user']);
+//
+//        $newData =
+//            [
+//                'id' => 1287,
+//                'content' => 'nouveau contenu nouveau !',
+//                'date' => new \DateTime('now'),
+//                'user' => $user
+//            ];
+//
+//        $newMessage = clone $message;
+//        $newMessage
+//            ->setContent($newData['content']);
+//
+//
+//        $instanceMock = $this->getMockFromArray('Mur\Service\MessageManager', false,
+//            [
+//
+//                'hydrate' =>
+//                    [
+//                        'with' => [$newData, $message],
+//
+//                    ],
+//                'record' =>
+//                    [
+//                        'with' => $message
+//                    ]
+//
+//
+//            ]);
+//
+//        $smMock = $this->getMockFromArray('Zend\ServiceManager\ServiceManager', false,
+//            [
+//
+//
+//            ]);
+//
+//        $this->setInaccessiblePropertyValue('serviceLocator', $smMock);
+//        $this->instance->hydrate($newData, $message);
+//        $this->assertTrue($this->instance->update($message, $newData));
+//        $this->assertSame($newMessage, $message);
+//
+//
+//    }
+
+    public function testDelete()
     {
 
-        $message = new Message();
-        $user = new User();
-
-        $data =
-            [
-                'id' => 1287,
-                'content' => 'kzfoznfzlkenf',
-                'date' => new \DateTime('now'),
-                'user' => $user
-            ];
-
-        $message
-            ->setId($data['id'])
-            ->setContent($data['content'])
-            ->setDateCreation($data['date'])
-            ->setUser($data['user']);
-
-        $newData =
-            [
-                'id' => 1287,
-                'content' => 'nouveau contenu nouveau !',
-                'date' => new \DateTime('now'),
-                'user' => $user
-            ];
-
-        $newMessage = clone $message;
-        $newMessage
-            ->setContent($newData['content']);
-
-
-        $instanceMock = $this->getMockFromArray('Mur\Service\MessageManager', false,
+        $entityMock = $this->getMockFromArray('Mur\Entity\Message', false,
             [
 
-                'hydrate' =>
+            ]);
+
+        $doctrineEmMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false,
+            [
+                'remove' =>
                     [
-                        'with' => [$newData, $message],
-
+                        /**
+                         * test ok mais impossible de valider l'assertion ci dessous comme quoi persist est appelée avec le mock ? erreur :
+                         * Parameter count for invocation Doctrine\ORM\EntityManager::remove(Mock54343787ada04 Object (...)) is too low.
+                         */
+//                        'with' => $entityMock,
                     ],
-                'record' =>
-                    [
-                        'with' => $message
-                    ]
 
+                'flush' =>
+                    [
+
+                    ]
 
             ]);
 
         $smMock = $this->getMockFromArray('Zend\ServiceManager\ServiceManager', false,
             [
+                'get' =>
+                    [
+                        'with' => 'doctrine.entitymanager.orm_default',
+                        'will' => $this->returnValue($doctrineEmMock)
+                    ],
 
 
             ]);
 
         $this->setInaccessiblePropertyValue('serviceLocator', $smMock);
-        $this->instance->hydrate($newData, $message);
-        $this->assertTrue($this->instance->update($message, $newData));
-        $this->assertSame($newMessage, $message);
-
+        $this->instance->delete($entityMock);
 
     }
 
@@ -143,7 +185,6 @@ class MessageManagerTest extends PhpunitTestCase
 
 
             ]);
-
 
         $this->setInaccessiblePropertyValue('serviceLocator', $smMock);
         $this->instance->record($entityMock);
@@ -225,11 +266,7 @@ class MessageManagerTest extends PhpunitTestCase
             ];
 
 
-        $doctrineEmMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false,
-            [
-
-
-            ]);
+        $doctrineEmMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false, []);
 
         $smMock = $this->getMockFromArray('Zend\ServiceManager\ServiceManager', false,
             [
@@ -255,47 +292,7 @@ class MessageManagerTest extends PhpunitTestCase
     }
 
 
-    public function testDelete()
-    {
 
-        $entityMock = $this->getMockFromArray('Mur\Entity\Message', false,
-            [
-
-            ]);
-
-        $doctrineEmMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false,
-            [
-                'remove' =>
-                    [
-                        /**
-                         * test ok mais impossible de valider l'assertion ci dessous comme quoi persist est appelée avec le mock ? erreur :
-                         * Parameter count for invocation Doctrine\ORM\EntityManager::remove(Mock54343787ada04 Object (...)) is too low.
-                        */
-//                        'with' => $entityMock,
-                    ],
-
-                'flush' =>
-                    [
-
-                    ]
-
-            ]);
-
-        $smMock = $this->getMockFromArray('Zend\ServiceManager\ServiceManager', false,
-            [
-                'get' =>
-                    [
-                        'with' => 'doctrine.entitymanager.orm_default',
-                        'will' => $this->returnValue($doctrineEmMock)
-                    ],
-
-
-            ]);
-
-        $this->setInaccessiblePropertyValue('serviceLocator', $smMock);
-        $this->instance->delete($entityMock);
-
-    }
 
 
 }

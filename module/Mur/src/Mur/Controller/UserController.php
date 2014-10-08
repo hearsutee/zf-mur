@@ -32,6 +32,31 @@ class UserController extends AbstractActionController
         );
     }
 
+    /**
+     * admin view single user
+     * @return ViewModel
+     */
+    public function showOneAction()
+    {
+        $sm = $this->getServiceLocator();
+        $authManager = $sm->get('mur.auth.manager');
+
+        if (!$authManager->getUserConnected() || $authManager->getRole() != 'admin') {
+            return $this->redirect()->toRoute('home');
+        }
+
+        $userManager = $sm->get('mur.user.manager');
+
+        $idUser = $this->params()->fromRoute('id');
+        $user = $userManager->getUserById($idUser);
+
+        return new ViewModel(
+            [
+                'user' => $user
+            ]
+        );
+    }
+
 
     /**
      * admin create a new user

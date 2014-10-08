@@ -21,18 +21,72 @@ class UserManager implements ServiceLocatorAwareInterface
      */
     public function create(array $data)
     {
-        $sm = $this->getServiceLocator();
+        $user = new User();
 
-        $em = $sm->get('doctrine.entitymanager.orm_default');
+        $this->hydrate($data, $user);
+
+        $this->record($user);
+
+        return true;
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     */
+    public function update(array $data)
+    {
 
         $user = new User();
 
-        $hydrator = new DoctrineObject($em);
-        $hydrator->hydrate($data, $user);
+        $this->hydrate($data, $user);
 
-        $em->persist($user);
-        $em->flush();
+        $this->record($user);
 
         return true;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getUserById($id)
+    {
+        $em = $this
+            ->getServiceLocator()
+            ->get('doctrine.entitymanager.orm_default');
+
+        $user = $em
+            ->getRepository('Mur\Entity\User')
+            ->findOneById($id);
+
+        return $user;
+    }
+
+    /**
+     * @param $entity
+     */
+    public function record($entity)
+    {
+        $em = $this
+            ->getServiceLocator()
+            ->get('doctrine.entitymanager.orm_default');
+
+        $em->persist($entity);
+        $em->flush();
+    }
+
+    /**
+     * @param array $data
+     * @param $entity
+     */
+    public function hydrate(array $data, $entity)
+    {
+        $em = $this
+            ->getServiceLocator()
+            ->get('doctrine.entitymanager.orm_default');
+
+        $hydrator = new DoctrineObject($em);
+        $hydrator->hydrate($data, $entity);
     }
 } 
