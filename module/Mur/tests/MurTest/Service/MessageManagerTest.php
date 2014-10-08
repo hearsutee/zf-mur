@@ -3,7 +3,7 @@
 namespace MurTest\Entity;
 
 
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+
 use Mur\Entity\Message;
 use Mur\Entity\User;
 use Mur\Service\MessageManager;
@@ -151,11 +151,8 @@ class MessageManagerTest extends PhpunitTestCase
      */
     public function testRecord()
     {
-        $entityMock = $this->getMockFromArray('Mur\Entity\Message', false,
-            [
 
-            ]);
-
+        $entityMock = $this->getMockFromArray('Mur\Entity\Message', false, []);
 
         $doctrineEmMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false,
             [
@@ -265,7 +262,6 @@ class MessageManagerTest extends PhpunitTestCase
                 'password' => 'topsecret'
             ];
 
-
         $doctrineEmMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false, []);
 
         $smMock = $this->getMockFromArray('Zend\ServiceManager\ServiceManager', false,
@@ -276,7 +272,6 @@ class MessageManagerTest extends PhpunitTestCase
                         'will' => $this->returnValue($doctrineEmMock)
                     ],
             ]);
-
 
         $this->setInaccessiblePropertyValue('serviceLocator', $smMock);
 
@@ -290,9 +285,6 @@ class MessageManagerTest extends PhpunitTestCase
         $this->instance->hydrate($data, $entityMock);
 
     }
-
-
-
 
 
 }
