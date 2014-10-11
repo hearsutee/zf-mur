@@ -40,7 +40,7 @@ abstract class ModelAbstract implements \ArrayAccess, ArraySerializableInterface
         $this->offsetSet($offset, null);
     }
 
-    public function getArrayCopy ()
+    public function getArrayCopy()
     {
         return get_object_vars($this);
     }

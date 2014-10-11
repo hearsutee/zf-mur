@@ -40,6 +40,7 @@ class AuthenticationController extends AbstractActionController
                 return $this->redirect()->toRoute('home');
             }
         }
+
         return new ViewModel(
             [
 
@@ -67,7 +68,6 @@ class AuthenticationController extends AbstractActionController
         $request = $this->getRequest();
         if ($request->isPost()) {
 
-
             $form->setInputFilter(new LoginFilter());
 
             $form->setData($request->getPost());
@@ -76,8 +76,6 @@ class AuthenticationController extends AbstractActionController
             if ($form->isValid()) {
 
                 $data = $form->getData();
-
-
 
                 if ($authManager->login($data)) {
 

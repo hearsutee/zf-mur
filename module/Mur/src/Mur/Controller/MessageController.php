@@ -5,6 +5,7 @@ namespace Mur\Controller;
 
 
 use Mur\Form\MessageFilter;
+use Zend\Form\FormInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -105,8 +106,10 @@ class MessageController extends AbstractActionController
 
         $form = $sm->get('FormElementManager')->get('mur.message.form');
 
-        // une meilleur maniere de faire ? pour tous les champs à la fois ?
-        $form->get('content')->setValue($messageToUpdate->getContent());
+       $form->bind($messageToUpdate);
+
+       
+       // $form->get('content')->setValue($messageToUpdate->getContent());
 
         $request = $this->getRequest();
 
@@ -116,9 +119,15 @@ class MessageController extends AbstractActionController
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
+
+                //si le form est bound, getData retourne l'object entity.
                 $data = $form->getData();
 
-                if ($messageManager->update($data, $messageToUpdate)) {
+                //$data = $form->getData(FormInterface::VALUES_AS_ARRAY);
+                //if ($messageManager->update($data, $messageToUpdate)) {
+
+                // si le form est bound alors getData retourne l'object entity ! on peut donc utiliser persist sans l'hydrater au                       préalable :
+                if ($messageManager->record($messageToUpdate)) {
                     return $this->redirect()->toRoute('message');
                 } else {
                     //pb message non enregistré..

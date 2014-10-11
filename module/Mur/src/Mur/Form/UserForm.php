@@ -2,6 +2,7 @@
 namespace Mur\Form;
 
 use Zend\Form\Form;
+use ZFTest\Hal\TestAsset\ClassMethods;
 
 
 class UserForm extends Form
@@ -10,6 +11,7 @@ class UserForm extends Form
     {
         // we want to ignore the name passed
         parent::__construct('user');
+        $this->setHydrator(new ClassMethods());
 
         $this->setAttribute('method', 'post');
 

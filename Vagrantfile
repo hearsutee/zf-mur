@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
 
-  config.vm.synced_folder "c:/tmp/vagrant/apt/cache", "/var/cache/apt/archives"
+  config.vm.synced_folder ".", "/vagrant", :mount_options => ['dmode=770', 'fmode=770']
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.

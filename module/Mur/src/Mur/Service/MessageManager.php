@@ -45,7 +45,7 @@ class MessageManager implements ServiceLocatorAwareInterface
      * @param $entity
      * @return bool
      */
-    public function update(array $data, $entity)
+    public function update($data, $entity)
     {
 
        $this->hydrate($data, $entity);
@@ -102,13 +102,15 @@ class MessageManager implements ServiceLocatorAwareInterface
 
         $em->persist($entity);
         $em->flush();
+
+        return true;
     }
 
     /**
      * @param array $data
      * @param $entity
      */
-    public function hydrate(array $data, $entity)
+    public function hydrate($data, $entity)
     {
         $em = $this
             ->getServiceLocator()
@@ -116,5 +118,6 @@ class MessageManager implements ServiceLocatorAwareInterface
 
         $hydrator = new DoctrineObject($em);
         $hydrator->hydrate($data, $entity);
+
     }
 } 

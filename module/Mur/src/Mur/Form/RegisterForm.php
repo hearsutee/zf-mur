@@ -10,6 +10,7 @@ namespace Mur\Form;
 
 
 use Zend\Form\Form;
+use Zend\Stdlib\Hydrator\ClassMethods;
 
 class RegisterForm extends Form
 {
@@ -17,7 +18,7 @@ class RegisterForm extends Form
     {
 
         parent::__construct('register');
-
+        $this->setHydrator(new ClassMethods());
 //       $this->init();
     }
 

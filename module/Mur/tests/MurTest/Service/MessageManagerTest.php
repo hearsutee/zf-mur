@@ -38,71 +38,71 @@ class MessageManagerTest extends PhpunitTestCase
     }
 
 
-//    /**
-//     * test update
-//     */
-//    public function testUpdate()
-//    {
-//
-//        $message = new Message();
-//        $user = new User();
-//
-//        $data =
-//            [
-//                'id' => 1287,
-//                'content' => 'kzfoznfzlkenf',
-//                'date' => new \DateTime('now'),
-//                'user' => $user
-//            ];
-//
-//        $message
-//            ->setId($data['id'])
-//            ->setContent($data['content'])
-//            ->setDateCreation($data['date'])
-//            ->setUser($data['user']);
-//
-//        $newData =
-//            [
-//                'id' => 1287,
-//                'content' => 'nouveau contenu nouveau !',
-//                'date' => new \DateTime('now'),
-//                'user' => $user
-//            ];
-//
-//        $newMessage = clone $message;
-//        $newMessage
-//            ->setContent($newData['content']);
-//
-//
-//        $instanceMock = $this->getMockFromArray('Mur\Service\MessageManager', false,
-//            [
-//
-//                'hydrate' =>
-//                    [
-//                        'with' => [$newData, $message],
-//
-//                    ],
-//                'record' =>
-//                    [
-//                        'with' => $message
-//                    ]
-//
-//
-//            ]);
-//
-//        $smMock = $this->getMockFromArray('Zend\ServiceManager\ServiceManager', false,
-//            [
-//
-//
-//            ]);
-//
-//        $this->setInaccessiblePropertyValue('serviceLocator', $smMock);
-//        $this->instance->hydrate($newData, $message);
-//        $this->assertTrue($this->instance->update($message, $newData));
-//        $this->assertSame($newMessage, $message);
-//
-//
-//    }
+    /**
+     * test update
+     */
+    public function testUpdate()
+    {
+
+        $message = new Message();
+        $user = new User();
+
+        $data =
+            [
+                'id' => 1287,
+                'content' => 'kzfoznfzlkenf',
+                'date' => new \DateTime('now'),
+                'user' => $user
+            ];
+
+        $message
+            ->setId($data['id'])
+            ->setContent($data['content'])
+            ->setDateCreation($data['date'])
+            ->setUser($data['user']);
+
+        $newData =
+            [
+                'id' => 1287,
+                'content' => 'nouveau contenu nouveau !',
+                'date' => new \DateTime('now'),
+                'user' => $user
+            ];
+
+        $newMessage = clone $message;
+        $newMessage
+            ->setContent($newData['content']);
+
+
+        $instanceMock = $this->getMockFromArray('Mur\Service\MessageManager', false,
+            [
+
+                'hydrate' =>
+                    [
+                        'with' => [$newData, $message],
+
+                    ],
+                'record' =>
+                    [
+                        'with' => $message
+                    ]
+
+
+            ]);
+
+        $smMock = $this->getMockFromArray('Zend\ServiceManager\ServiceManager', false,
+            [
+
+
+            ]);
+
+        $this->setInaccessiblePropertyValue('serviceLocator', $smMock);
+        $this->instance->hydrate($newData, $message);
+        $this->assertTrue($this->instance->update($message, $newData));
+        $this->assertSame($newMessage, $message);
+
+
+    }
 
     public function testDelete()
     {
@@ -158,11 +158,8 @@ class MessageManagerTest extends PhpunitTestCase
             [
                 'persist' =>
                     [
-                        /**
-                         * test ok mais impossible de valider l'assertion ci dessous comme quoi persist est appelée avec le mock ? erreur :
-                         * Parameter count for invocation Doctrine\ORM\EntityManager::persist(Mock54343787ada04 Object (...)) is too low.
-                         */
-//                        'with' => $entityMock,
+
+                        'with' => $entityMock,
                     ],
 
                 'flush' =>

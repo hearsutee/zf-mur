@@ -75,7 +75,7 @@ class PhpunitTestCase extends \PHPUnit_Framework_TestCase
             }
             if(isset($methodConfig['with'])) {
                 if(!is_array($methodConfig['with'])) {
-                    $methodConfig['with'] = (array) $methodConfig['with'];
+                    $methodConfig['with'] = [$methodConfig['with']] ;
                 }
                 call_user_func_array([$mockMethod , 'with'], $methodConfig['with']);
             }

@@ -1,10 +1,22 @@
 <?php
 return array(
     'router' => array(
-        'routes' => array(),
+        'routes' => array(
+            'test-api.rest.user' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/user[/:user_id]',
+                    'defaults' => array(
+                        'controller' => 'TestApi\\V1\\Rest\\User\\Controller',
+                    ),
+                ),
+            ),
+        ),
     ),
     'zf-versioning' => array(
-        'uri' => array(),
+        'uri' => array(
+            0 => 'test-api.rest.user',
+        ),
     ),
     'service_manager' => array(
         'factories' => array(),

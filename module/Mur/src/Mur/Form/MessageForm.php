@@ -2,6 +2,7 @@
 namespace Mur\Form;
 
 use Zend\Form\Form;
+use Zend\Stdlib\Hydrator\ClassMethods;
 
 
 class MessageForm extends Form
@@ -10,7 +11,7 @@ class MessageForm extends Form
     {
         // we want to ignore the name passed
         parent::__construct('message');
-
+        $this->setHydrator(new ClassMethods());
 
     }
 
