@@ -50,7 +50,7 @@ return
             [
                 'routes' =>
                     [
-                        'home' =>
+                        'login' =>
                             [
                                 'type' => 'Zend\Mvc\Router\Http\Literal',
                                 'options' =>
@@ -61,6 +61,22 @@ return
                                                 '__NAMESPACE__' => 'Mur\Controller',
                                                 'controller' => 'Authentication',
                                                 'action' => 'login',
+                                            ],
+
+                                    ],
+
+                            ],
+                        'forbidden' =>
+                            [
+                                'type' => 'Zend\Mvc\Router\Http\Literal',
+                                'options' =>
+                                    [
+                                        'route' => '/forbidden',
+                                        'defaults' =>
+                                            [
+                                                '__NAMESPACE__' => 'Mur\Controller',
+                                                'controller' => 'Authentication',
+                                                'action' => 'forbidden',
                                             ],
 
                                     ],
@@ -218,7 +234,7 @@ return
                 'invokables' =>
                     [
                         //acl
-                        'mur.acl' => 'Mur\MurAcl',
+                        'mur.acl' => 'Mur\Acl\Acl',
                         //managers
                         'mur.auth.manager' => 'Mur\Service\AuthManager',
                         'mur.message.manager' => 'Mur\Service\MessageManager',
@@ -226,7 +242,7 @@ return
                         //Entity
                         'mur.user.entity'     => 'Mur\Entity\User',
                         'mur.message.entity'     => 'Mur\Entity\Message',
-                        //form elements
+
 
                     ],
                 'factories' =>

@@ -23,7 +23,6 @@ class AuthenticationController extends AbstractActionController
     {
         $sm = $this->getServiceLocator();
         $form = $sm->get('FormElementManager')->get('mur.user.register.form');
-
         $request = $this->getRequest();
 
         if ($request->isPost()) {
@@ -37,7 +36,7 @@ class AuthenticationController extends AbstractActionController
                 $authService = $sm->get('mur.auth.manager');
                 $authService->register($data);
 
-                return $this->redirect()->toRoute('home');
+                return $this->redirect()->toRoute('login');
             }
         }
 
@@ -69,9 +68,7 @@ class AuthenticationController extends AbstractActionController
         if ($request->isPost()) {
 
             $form->setInputFilter(new LoginFilter());
-
             $form->setData($request->getPost());
-
 
             if ($form->isValid()) {
 
@@ -107,6 +104,31 @@ class AuthenticationController extends AbstractActionController
         $authManager = $sm->get('mur.auth.manager');
         $authManager->logout();
 
-        return $this->redirect()->toRoute('home');
+        return $this->redirect()->toRoute('login');
+    }
+
+    /**
+     * logout user
+     * @return \Zend\Http\Response
+     */
+    public function forbiddenAction()
+    {
+        $sm = $this->getServiceLocator();
+        $authManager = $sm->get('mur.auth.manager');
+
+        if(!$authManager->getUserConnected()){
+            return $this->redirect()->toRoute('login');
+        }
+
+        $error = 'Vous n\'avez pas les droits pour acceder à cet espace !';
+
+        return new ViewModel(
+            [
+
+                'error' => $error,
+
+            ]
+        );
+
     }
 }

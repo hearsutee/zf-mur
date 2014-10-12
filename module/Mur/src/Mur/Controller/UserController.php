@@ -33,16 +33,17 @@ class UserController extends AbstractActionController
     }
 
     /**
-     * admin view single user
+     * view single user profile
      * @return ViewModel
      */
     public function showOneAction()
     {
         $sm = $this->getServiceLocator();
         $authManager = $sm->get('mur.auth.manager');
+        $acl = $this->getServiceLocator()->get('mur.acl');
 
-        if (!$authManager->getUserConnected() || $authManager->getRole() != 'admin') {
-            return $this->redirect()->toRoute('home');
+        if (!$acl->isAllowed($authManager->getRole(), 'user', 'read')) {
+            return $this->redirect()->toRoute('forbidden');
         }
 
         $userManager = $sm->get('mur.user.manager');
@@ -66,9 +67,10 @@ class UserController extends AbstractActionController
     {
         $sm = $this->getServiceLocator();
         $authManager = $sm->get('mur.auth.manager');
+        $acl = $this->getServiceLocator()->get('mur.acl');
 
-        if (!$authManager->getUserConnected() || $authManager->getRole() != 'admin' ) {
-            return $this->redirect()->toRoute('home');
+        if (!$acl->isAllowed($authManager->getRole(), 'user', 'create')) {
+            return $this->redirect()->toRoute('forbidden');
         }
 
         $form = $sm->get('FormElementManager')->get('Mur\Form\UserForm');
@@ -86,6 +88,14 @@ class UserController extends AbstractActionController
      */
     public function updateAction()
     {
+        $sm = $this->getServiceLocator();
+        $authManager = $sm->get('mur.auth.manager');
+        $acl = $this->getServiceLocator()->get('mur.acl');
+
+        if (!$acl->isAllowed($authManager->getRole(), 'user', 'update')) {
+            return $this->redirect()->toRoute('forbidden');
+        }
+
         return new ViewModel();
     }
 

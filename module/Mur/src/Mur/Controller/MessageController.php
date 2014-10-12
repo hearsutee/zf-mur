@@ -3,7 +3,6 @@
 
 namespace Mur\Controller;
 
-
 use Mur\Form\MessageFilter;
 use Zend\Form\FormInterface;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -16,7 +15,6 @@ use Zend\View\Model\ViewModel;
 class MessageController extends AbstractActionController
 {
 
-
     /**
      * display all messages
      * @return ViewModel
@@ -24,12 +22,6 @@ class MessageController extends AbstractActionController
     public function indexAction()
     {
         $sm = $this->getServiceLocator();
-        $authManager = $sm->get('mur.auth.manager');
-
-        if (!$authManager->getUserConnected()) {
-            return $this->redirect()->toRoute('home');
-        }
-
         $em = $sm->get('doctrine.entitymanager.orm_default');
 
         $messages = $em->getRepository('Mur\Entity\Message')->findAll();
@@ -48,14 +40,16 @@ class MessageController extends AbstractActionController
     {
         $sm = $this->getServiceLocator();
         $authManager = $sm->get('mur.auth.manager');
+        $request = $this->getRequest();
+        $acl = $this->getServiceLocator()->get('mur.acl');
 
-        if (!$authManager->getUserConnected()) {
-            return $this->redirect()->toRoute('home');
+
+        if (!$acl->isAllowed($authManager->getRole(), 'message', 'create')) {
+            return $this->redirect()->toRoute('forbidden');
         }
 
-        $form = $sm->get('FormElementManager')->get('mur.message.form');
 
-        $request = $this->getRequest();
+        $form = $sm->get('FormElementManager')->get('mur.message.form');
 
         if ($request->isPost()) {
 
@@ -94,24 +88,19 @@ class MessageController extends AbstractActionController
     {
         $sm = $this->getServiceLocator();
         $authManager = $sm->get('mur.auth.manager');
-
-        if (!$authManager->getUserConnected() || $authManager->getRole() != 'admin') {
-            return $this->redirect()->toRoute('home');
-        }
-
         $messageManager = $sm->get('mur.message.manager');
+        $request = $this->getRequest();
+        $acl = $this->getServiceLocator()->get('mur.acl');
+
+        if (!$acl->isAllowed($authManager->getRole(), 'message', 'update')) {
+            return $this->redirect()->toRoute('forbidden');
+        }
 
         $idMessage = $this->params()->fromRoute('id');
         $messageToUpdate = $messageManager->getMessageById($idMessage);
 
         $form = $sm->get('FormElementManager')->get('mur.message.form');
-
-       $form->bind($messageToUpdate);
-
-       
-       // $form->get('content')->setValue($messageToUpdate->getContent());
-
-        $request = $this->getRequest();
+        $form->bind($messageToUpdate);
 
         if ($request->isPost()) {
 
@@ -126,7 +115,7 @@ class MessageController extends AbstractActionController
                 //$data = $form->getData(FormInterface::VALUES_AS_ARRAY);
                 //if ($messageManager->update($data, $messageToUpdate)) {
 
-                // si le form est bound alors getData retourne l'object entity ! on peut donc utiliser persist sans l'hydrater au                       préalable :
+                // si le form est bound alors getData retourne l'object entity ! on peut donc utiliser persist sans l'hydrater au préalable :
                 if ($messageManager->record($messageToUpdate)) {
                     return $this->redirect()->toRoute('message');
                 } else {
@@ -151,9 +140,10 @@ class MessageController extends AbstractActionController
     {
         $sm = $this->getServiceLocator();
         $authManager = $sm->get('mur.auth.manager');
+        $acl = $this->getServiceLocator()->get('mur.acl');
 
-        if (!$authManager->getUserConnected() || $authManager->getRole() != 'admin') {
-            return $this->redirect()->toRoute('home');
+        if (!$acl->isAllowed($authManager->getRole(), 'message', 'delete')) {
+            return $this->redirect()->toRoute('forbidden');
         }
 
         $messageManager = $sm->get('mur.message.manager');

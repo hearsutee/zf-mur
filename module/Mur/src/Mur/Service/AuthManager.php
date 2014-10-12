@@ -5,6 +5,7 @@ namespace Mur\Service;
 
 
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+use Mur\Acl\Acl;
 use Mur\Entity\User;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -88,6 +89,10 @@ class AuthManager implements ServiceLocatorAwareInterface
 
         $loggedUser = $authService->getIdentity();
 
+        if(!$loggedUser){
+            return false;
+        }
+
         return $loggedUser;
     }
 
@@ -97,16 +102,10 @@ class AuthManager implements ServiceLocatorAwareInterface
     public function getRole()
     {
 
-        $authService = $this
-            ->getServiceLocator()
-            ->get('Zend\Authentication\AuthenticationService');
-
-        $loggedUser = $authService->getIdentity();
-        $role =  $loggedUser->getRole();
-
-
-        return $role;
+        return !$this->getUserConnected() ? 'guest' : $this->getUserConnected()->getRole();
     }
+
+
 
 
 }
