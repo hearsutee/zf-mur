@@ -13,19 +13,18 @@ interface DoctrineObjectManagerInterface
 {
     public function getEntityManager();
 
-    public function setEntityManager();
+    public function setEntityManager($entityManager);
 
     public function getHydrator();
 
-    public function setHydrator();
+    public function setHydrator($hydrator);
 
-    public function hydrate();
+    public function hydrate($data, $entity);
 
-    public function record();
+    public function record($entity);
 
-    public function delete();
+    public function delete($entity);
 
-    public function update();
+    public function update($data, $entity);
 
-
-} 
+}

@@ -5,7 +5,6 @@ namespace Mur\Service;
 
 
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
-use Mur\Acl\Acl;
 use Mur\Entity\User;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -14,7 +13,9 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  * Class AuthManager
  * @package Mur\Service
  */
-class AuthManager implements ServiceLocatorAwareInterface
+class AuthManager implements
+    ServiceLocatorAwareInterface,
+    DoctrineObjectManagerInterface
 {
     use ServiceLocatorAwareTrait;
 
