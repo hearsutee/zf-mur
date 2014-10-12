@@ -263,11 +263,7 @@ class MessageManagerTest extends PhpunitTestCase
 
         $smMock = $this->getMockFromArray('Zend\ServiceManager\ServiceManager', false,
             [
-                'get' =>
-                    [
-                        'with' => 'doctrine.entitymanager.orm_default',
-                        'will' => $this->returnValue($doctrineEmMock)
-                    ],
+
             ]);
 
         $this->setInaccessiblePropertyValue('serviceLocator', $smMock);

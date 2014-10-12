@@ -15,10 +15,9 @@ class UserManager implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
-    protected $hydrator;
-    protected $entityManager;
-    protected $authManager;
+    use DoctrineObjectManagerTrait;
 
+    protected $authManager;
 
 
     /**
@@ -36,21 +35,6 @@ class UserManager implements ServiceLocatorAwareInterface
         return true;
     }
 
-    /**
-     * @param array $data
-     * @return bool
-     */
-    public function update(array $data)
-    {
-
-        $user = new User();
-
-        $this->hydrate($data, $user);
-
-        $this->record($user);
-
-        return true;
-    }
 
     /**
      * @param $id
@@ -69,29 +53,6 @@ class UserManager implements ServiceLocatorAwareInterface
     }
 
     /**
-     * @param $entity
-     */
-    public function record($entity)
-    {
-        $em = $this->getEntityManager();
-
-        $em->persist($entity);
-        $em->flush();
-    }
-
-    /**
-     * @param array $data
-     * @param $entity
-     */
-    public function hydrate(array $data, $entity)
-    {
-        $em = $this->getEntityManager();
-
-        $hydrator = new DoctrineObject($em);
-        $hydrator->hydrate($data, $entity);
-    }
-
-    /**
      * @return mixed
      */
     public function getAuthManager()
@@ -107,35 +68,5 @@ class UserManager implements ServiceLocatorAwareInterface
         $this->authManager = $authManager;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEntityManager()
-    {
-        return $this->entityManager;
-    }
 
-    /**
-     * @param mixed $entityManager
-     */
-    public function setEntityManager($entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getHydrator()
-    {
-        return $this->hydrator;
-    }
-
-    /**
-     * @param mixed $hydrator
-     */
-    public function setHydrator($hydrator)
-    {
-        $this->hydrator = $hydrator;
-    }
 } 
