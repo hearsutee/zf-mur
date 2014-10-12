@@ -235,10 +235,7 @@ return
                     [
                         //acl
                         'mur.acl' => 'Mur\Acl\Acl',
-                        //managers
-                        'mur.auth.manager' => 'Mur\Service\AuthManager',
-                        'mur.message.manager' => 'Mur\Service\MessageManager',
-                        'mur.user.manager' => 'Mur\Service\UserManager',
+
                         //Entity
                         'mur.user.entity'     => 'Mur\Entity\User',
                         'mur.message.entity'     => 'Mur\Entity\Message',
@@ -250,7 +247,13 @@ return
                         'Zend\Authentication\AuthenticationService' => function($serviceManager) {
                             // If you are using DoctrineORMModule:
                             return $serviceManager->get('doctrine.authenticationservice.orm_default');
-                        }
+                        },
+
+                        //managers
+                        'mur.auth.manager' => 'Mur\Service\AuthManagerFactory',
+                        'mur.message.manager' => 'Mur\Service\MessageManagerFactory',
+                        'mur.user.manager' => 'Mur\Service\UserManagerFactory',
+
                     ]
 
             ],

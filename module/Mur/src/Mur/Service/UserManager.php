@@ -15,6 +15,12 @@ class UserManager implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
+    protected $hydrator;
+    protected $entityManager;
+    protected $authManager;
+
+
+
     /**
      * @param array $data
      * @return bool
@@ -52,9 +58,8 @@ class UserManager implements ServiceLocatorAwareInterface
      */
     public function getUserById($id)
     {
-        $em = $this
-            ->getServiceLocator()
-            ->get('doctrine.entitymanager.orm_default');
+        $em = $this->getEntityManager();
+
 
         $user = $em
             ->getRepository('Mur\Entity\User')
@@ -68,9 +73,7 @@ class UserManager implements ServiceLocatorAwareInterface
      */
     public function record($entity)
     {
-        $em = $this
-            ->getServiceLocator()
-            ->get('doctrine.entitymanager.orm_default');
+        $em = $this->getEntityManager();
 
         $em->persist($entity);
         $em->flush();
@@ -82,11 +85,57 @@ class UserManager implements ServiceLocatorAwareInterface
      */
     public function hydrate(array $data, $entity)
     {
-        $em = $this
-            ->getServiceLocator()
-            ->get('doctrine.entitymanager.orm_default');
+        $em = $this->getEntityManager();
 
         $hydrator = new DoctrineObject($em);
         $hydrator->hydrate($data, $entity);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthManager()
+    {
+        return $this->authManager;
+    }
+
+    /**
+     * @param mixed $authManager
+     */
+    public function setAuthManager($authManager)
+    {
+        $this->authManager = $authManager;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEntityManager()
+    {
+        return $this->entityManager;
+    }
+
+    /**
+     * @param mixed $entityManager
+     */
+    public function setEntityManager($entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHydrator()
+    {
+        return $this->hydrator;
+    }
+
+    /**
+     * @param mixed $hydrator
+     */
+    public function setHydrator($hydrator)
+    {
+        $this->hydrator = $hydrator;
     }
 } 

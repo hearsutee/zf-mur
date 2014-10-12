@@ -19,6 +19,10 @@ class AuthManager implements ServiceLocatorAwareInterface
     use ServiceLocatorAwareTrait;
 
 
+    protected $hydrator;
+    protected $entityManager;
+
+
     /**
      * @param array $data
      */
@@ -104,6 +108,35 @@ class AuthManager implements ServiceLocatorAwareInterface
 
         return !$this->getUserConnected() ? 'guest' : $this->getUserConnected()->getRole();
     }
+
+    public function getHydrator()
+    {
+
+        return $this->hydrator;
+    }
+
+    public function setHydrator($hydrator)
+    {
+        $this->hydrator = $hydrator;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEntityManager()
+    {
+        return $this->entityManager;
+    }
+
+    /**
+     * @param mixed $entityManager
+     */
+    public function setEntityManager($entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+
 
 
 
