@@ -1,6 +1,6 @@
 <?php
 //
-//namespace MurTest\Entity;
+//namespace MurTest\Service;
 //
 //
 //use Mur\Entity\Message;
