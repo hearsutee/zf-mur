@@ -78,6 +78,8 @@ trait DoctrineObjectManagerTrait
     public function setHydrator($hydrator)
     {
         $this->hydrator = $hydrator;
+
+        return $this;
     }
 
     /**
@@ -88,11 +90,11 @@ trait DoctrineObjectManagerTrait
         return $this->entityManager;
     }
 
-    /**
-     * @param mixed $entityManager
-     */
+
     public function setEntityManager($entityManager)
     {
         $this->entityManager = $entityManager;
+
+        return $this;
     }
 } 
