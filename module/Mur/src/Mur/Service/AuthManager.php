@@ -4,7 +4,7 @@
 namespace Mur\Service;
 
 
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+
 use Mur\Entity\User;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -21,16 +21,35 @@ class AuthManager implements
 
     use DoctrineObjectManagerTrait;
 
+    protected $authService;
+
+    /**
+     * @return mixed
+     */
+    public function getAuthService()
+    {
+        return $this->authService;
+    }
+
+
+    public function setAuthService($authService)
+    {
+        $this->authService = $authService;
+
+        return $this;
+    }
+
     /**
      * @param array $data
      */
     public function register(array $data)
     {
-        $user = new User();
 
-        $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+        $user = $this->getServiceLocator()->get('mur.user.entity');
 
-        $hydrator = new DoctrineObject($em);
+        $em = $this->getEntityManager();
+        $hydrator = $this->getHydrator();
+
         $hydrator->hydrate($data, $user);
 
         $user->setRole('member');
@@ -46,10 +65,7 @@ class AuthManager implements
      */
     public function login(array $data)
     {
-        $authService = $this
-            ->getServiceLocator()
-            ->get('Zend\Authentication\AuthenticationService');
-
+        $authService = $this->getAuthService();
         $adapter = $authService->getAdapter();
 
         $adapter->setIdentityValue($data['username']);
@@ -71,10 +87,7 @@ class AuthManager implements
      */
     public function logout()
     {
-        $authService = $this
-            ->getServiceLocator()
-            ->get('Zend\Authentication\AuthenticationService');
-
+        $authService = $this->getAuthService();
         $authService->getStorage()->clear();
     }
 
@@ -85,10 +98,7 @@ class AuthManager implements
     public function getUserConnected()
     {
 
-        $authService = $this
-            ->getServiceLocator()
-            ->get('Zend\Authentication\AuthenticationService');
-
+        $authService = $this->getAuthService();
         $loggedUser = $authService->getIdentity();
 
         if(!$loggedUser){
