@@ -28,7 +28,7 @@ class UserManager implements
      */
     public function create(array $data)
     {
-        $user = new User();
+        $user = $this->getServiceLocator()->get('mur.user.entity');
 
         $this->hydrate($data, $user);
 
