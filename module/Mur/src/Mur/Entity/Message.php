@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * Message
  *
  * @ORM\Table(name="message", indexes={@ORM\Index(name="id_user", columns={"user"})})
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="Mur\Repository\MessageRepository")
+ *
  */
 class Message extends ModelAbstract
 {

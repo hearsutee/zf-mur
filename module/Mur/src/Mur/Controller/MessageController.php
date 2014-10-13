@@ -24,7 +24,7 @@ class MessageController extends AbstractActionController
         $sm = $this->getServiceLocator();
         $em = $sm->get('doctrine.entitymanager.orm_default');
 
-        $messages = $em->getRepository('Mur\Entity\Message')->findAll();
+        $messages = $em->getRepository('Mur\Entity\Message')->findAllOrderByDate();
 
         return new ViewModel(
             [
