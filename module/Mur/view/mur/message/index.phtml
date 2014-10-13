@@ -19,10 +19,9 @@
         <?= $message['content'] ?>
     </fieldset>
 
+    <?php if ($user = $this->identity() AND $user->getRole() == 'admin') : ?>
+        <a href="message/update/<?= $message['id'] ?>">Edit this message</a>
+        <?php endif ?>
 
-
-
-
-    </tr>
-
+    <br/><br/><br/>
 <?php endforeach ?>
