@@ -1,4 +1,3 @@
-
 <?php
 
 
@@ -10,11 +9,11 @@ return
                     [
                         'orm_default' =>
                             [
-                                'object_manager'        => 'Doctrine\ORM\EntityManager',
-                                'identity_class'        => 'Mur\Entity\User',
-                                'identity_property'     => 'userName',
-                                'credential_property'   => 'password',
-                                'credential_callable'   => function($user, $passwordGiven) {
+                                'object_manager' => 'Doctrine\ORM\EntityManager',
+                                'identity_class' => 'Mur\Entity\User',
+                                'identity_property' => 'userName',
+                                'credential_property' => 'password',
+                                'credential_callable' => function ($user, $passwordGiven) {
                                     $cryptedd = $user->getPassword();
                                     return password_verify($passwordGiven, $cryptedd);
                                 },
@@ -26,7 +25,7 @@ return
                             [
                                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                                 'cache' => 'array',
-                                'paths' => array(__DIR__ . '/../src/Mur/Entity')
+                                'paths' => [__DIR__ . '/../src/Mur/Entity']
                             ],
                         'orm_default' =>
                             [
@@ -237,14 +236,14 @@ return
                         'mur.acl' => 'Mur\Acl\Acl',
 
                         //Entity
-                        'mur.user.entity'     => 'Mur\Entity\User',
-                        'mur.message.entity'     => 'Mur\Entity\Message',
+                        'mur.user.entity' => 'Mur\Entity\User',
+                        'mur.message.entity' => 'Mur\Entity\Message',
 
 
                     ],
                 'factories' =>
                     [
-                        'Zend\Authentication\AuthenticationService' => function($serviceManager) {
+                        'Zend\Authentication\AuthenticationService' => function ($serviceManager) {
                             // If you are using DoctrineORMModule:
                             return $serviceManager->get('doctrine.authenticationservice.orm_default');
                         },
@@ -254,7 +253,12 @@ return
                         'mur.message.manager' => 'Mur\Service\MessageManagerFactory',
                         'mur.user.manager' => 'Mur\Service\UserManagerFactory',
 
-                    ]
+                    ],
+                'shared' =>
+                    [
+                        'mur.user.entity' => false,
+                        'mur.message.entity' => false,
+                    ],
 
             ],
         'translator' =>
