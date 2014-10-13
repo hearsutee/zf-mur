@@ -76,7 +76,6 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
     {
 
         $message = new Message();
-
         $user = new User();
 
         $dataFixture = [
@@ -196,44 +195,37 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
     }
 
 
-    //    public function testDelete()
-//    {
-//
-//        $entityMock = $this->getMockFromArray('Mur\Entity\Message', false,
-//            [
-//
-//            ]);
-//
-//        $doctrineEmMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false,
-//            [
-//                'remove' =>
-//                    [
-//                        /**
-//                         * test ok mais impossible de valider l'assertion ci dessous comme quoi persist est appelée avec le mock ? erreur :
-//                         * Parameter count for invocation Doctrine\ORM\EntityManager::remove(Mock54343787ada04 Object (...)) is too low.
-//                         */
-////                        'with' => $entityMock,
-//                    ],
-//
-//                'flush' =>
-//                    [
-//
-//                    ]
-//
-//            ]);
-//
-//        $smMock = $this->getMockFromArray('Zend\ServiceManager\ServiceManager', false,
-//            [
-//                'get' =>
-//                    [
-//                        'with' => 'doctrine.entitymanager.orm_default',
-//                        'will' => $this->returnValue($doctrineEmMock)
-//                    ],
-//
-//            ]);
-//
-//        $this->setInaccessiblePropertyValue('serviceLocator', $smMock);
-//        $this->instance->delete($entityMock);
-//
-//    }
+        public function testDelete()
+    {
+
+        $entityMock = $this->getMockFromArray('Mur\Entity\Message', false, []);
+
+        $entityManagerMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false,
+            [
+                'remove' =>
+                    [
+                        'with' => $entityMock,
+                    ],
+
+                'flush' =>
+                    [
+
+                    ]
+
+            ]);
+
+        $this->instance = $this->getMockFromArray('Mur\Service\MessageManager', false,
+            [
+                'getEntityManager' =>
+                    [
+                        'will' => $this->returnValue($entityManagerMock)
+
+                    ],
+            ]);
+
+        $this->setInaccessiblePropertyValue('entityManager', $entityManagerMock);
+
+        $this->instance->delete($entityMock);
+
+    }
 } 
