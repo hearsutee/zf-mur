@@ -33,6 +33,34 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
     }
 
     /**
+     *  test get set hydrator
+     */
+    public function testGetSetHydrator()
+    {
+        $entityManagerMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false,
+            []);
+
+        $hydratorMock = $this->getMock('DoctrineModule\Stdlib\Hydrator\DoctrineObject', [],
+            [$entityManagerMock]);
+
+        $this->assertSame($this->instance, $this->instance->setHydrator($hydratorMock));
+        $this->assertSame($hydratorMock, $this->instance->getHydrator());
+    }
+
+    /**
+     *  test get set entityManager
+     */
+    public function testGetSetEntityManager()
+    {
+        $entityManagerMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false,
+            []);
+
+        $this->assertSame($this->instance, $this->instance->setEntityManager($entityManagerMock));
+        $this->assertSame($entityManagerMock, $this->instance->getEntityManager());
+    }
+
+
+    /**
      * test record
      */
     public function testRecord()
@@ -95,16 +123,14 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
 
 
         $entityManagerMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false,
-            [
-
-            ]);
+            []);
 
         $hydratorMock = $this->getMock('DoctrineModule\Stdlib\Hydrator\DoctrineObject', [],
             [$entityManagerMock]);
 
         $hydratorMock->expects($this->once())
             ->method('hydrate')
-            ->with($dataFixture,$message)
+            ->with($dataFixture, $message)
             ->will($this->returnValue($messageAsItShouldBeAtTheEnd));
 
         $this->instance = $this->getMockFromArray('Mur\Service\MessageManager', false,
@@ -159,7 +185,6 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
         $newMessage
             ->setContent($newData['content']);
 
-
         $this->instance = $this->getMockFromArray('Mur\Service\MessageManager', false,
             [
 
@@ -176,16 +201,11 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
 
             ]);
 
-
         $hydratorMock = $this->getMockFromArray('DoctrineModule\Stdlib\Hydrator\DoctrineObject', false,
-            [
-
-            ]);
+            []);
 
         $entityManagerMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false,
-            [
-
-            ]);
+            []);
 
         $this->setInaccessiblePropertyValue('hydrator', $hydratorMock);
         $this->setInaccessiblePropertyValue('entityManager', $entityManagerMock);
@@ -194,8 +214,10 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
 
     }
 
-
-        public function testDelete()
+    /**
+     * test delete
+     */
+    public function testDelete()
     {
 
         $entityMock = $this->getMockFromArray('Mur\Entity\Message', false, []);
@@ -228,4 +250,6 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
         $this->instance->delete($entityMock);
 
     }
+
+
 } 
