@@ -3,12 +3,14 @@
 
 namespace MurTest\Service;
 
-
 use Mur\Entity\Message;
 use Mur\Entity\User;
 use Mur\Test\PhpunitTestCase;
 
-
+/**
+ * Class DoctrineObjectManagerTraitTest
+ * @package MurTest\Service
+ */
 class DoctrineObjectManagerTraitTest extends PhpunitTestCase
 {
     /**
