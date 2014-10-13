@@ -109,18 +109,16 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
         $user = new User();
 
         $dataFixture = [
-            'id' => 123,
             'content' => 'kzfoznfzlkenf',
-            'date' => new \DateTime('now'),
+            'dateCreation' => new \DateTime('now'),
             'user' => $user
         ];
 
         $messageAsItShouldBeAtTheEnd = clone $message;
 
         $messageAsItShouldBeAtTheEnd
-            ->setId($dataFixture['id'])
             ->setContent($dataFixture['content'])
-            ->setDateCreation($dataFixture['date'])
+            ->setDateCreation($dataFixture['dateCreation'])
             ->setUser($dataFixture['user']);
 
 
@@ -132,8 +130,8 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
 
         $hydratorMock->expects($this->once())
             ->method('hydrate')
-            ->with($dataFixture, $message)
-            ->will($this->returnValue($messageAsItShouldBeAtTheEnd));
+            ->with($dataFixture, $message);
+
 
         $this->instance = $this->getMockFromArray('Mur\Service\MessageManager', false,
             [
@@ -148,6 +146,7 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
         $this->setInaccessiblePropertyValue('hydrator', $hydratorMock);
 
         $this->instance->hydrate($dataFixture, $message);
+
         $this->assertEquals($message, $messageAsItShouldBeAtTheEnd);
 
     }
