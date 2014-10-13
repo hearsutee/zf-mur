@@ -4,6 +4,7 @@ namespace MurTest\Service;
 
 
 use Mur\Entity\Message;
+use Mur\Entity\User;
 use Mur\Service\AuthManager;
 use Mur\Test\PhpunitTestCase;
 
@@ -25,6 +26,36 @@ class AuthManagerTest extends PhpunitTestCase
     public function tearDown()
     {
         $this->instance = null;
+    }
+
+    /**
+     * test test get set authService
+     */
+    public function testGetSetAuthService()
+    {
+        $authServiceMock = $this->getMockFromArray('Zend\Authentication\AuthenticationService', false,
+            []);
+
+        $this->assertSame($this->instance, $this->instance->setAuthService($authServiceMock));
+        $this->assertSame($authServiceMock, $this->instance->getAuthService());
+    }
+
+    public function testGetUserConnected()
+    {
+        $user = new User();
+
+        $authServiceMock = $this->getMockFromArray('Zend\Authentication\AuthenticationService', false,
+            [
+                'getIdentity' => [
+
+                    'will' => $this->returnValue($user)
+                ],
+
+            ]);
+
+        $this->setInaccessiblePropertyValue('authService', $authServiceMock);
+        $this->assertSame($user, $this->instance->getUserConnected());
+
     }
 
     /**
@@ -206,6 +237,30 @@ class AuthManagerTest extends PhpunitTestCase
 
         $this->setInaccessiblePropertyValue('authService', $authServiceMock);
         $this->assertFalse($this->instance->login($data));
+    }
+
+    /**
+     * test logout
+     */
+    public function testLogout()
+    {
+
+        $storageMock = $this->getMockFromArray('\stdClass', false,
+            [
+                'clear' => [
+
+                ],
+            ]);
+
+        $authServiceMock = $this->getMockFromArray('Zend\Authentication\AuthenticationService', false,
+            [
+                'getStorage' => [
+                    'will' => $this->returnValue($storageMock)
+                ]
+            ]);
+
+        $this->setInaccessiblePropertyValue('authService', $authServiceMock);
+        $this->instance->logout();
     }
 
 }
