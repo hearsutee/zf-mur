@@ -77,6 +77,7 @@ trait DoctrineObjectManagerTrait
 
     public function setHydrator($hydrator)
     {
+
         $this->hydrator = $hydrator;
 
         return $this;
