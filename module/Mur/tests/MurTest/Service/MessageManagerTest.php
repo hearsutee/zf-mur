@@ -93,7 +93,13 @@ class MessageManagerTest extends PhpunitTestCase
         $this->assertSame($message, $this->instance->getMessageById($dataFixture['id']));
     }
 
-
+//    /**
+//     * test write
+//     */
+//    public function testWrite()
+//    {
+//
+//    }
 
 
 }

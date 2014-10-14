@@ -105,18 +105,18 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
     public function testHydrate()
     {
 
-        $message = new Message();
-        $user = new User();
+        $entity = new Message();
+        $subEntity = new User();
 
         $dataFixture = [
             'content' => 'kzfoznfzlkenf',
             'dateCreation' => new \DateTime('now'),
-            'user' => $user
+            'user' => $subEntity
         ];
 
-        $messageAsItShouldBeAtTheEnd = clone $message;
+        $entityAsItShouldBeAtTheEnd = clone $entity;
 
-        $messageAsItShouldBeAtTheEnd
+        $entityAsItShouldBeAtTheEnd
             ->setContent($dataFixture['content'])
             ->setDateCreation($dataFixture['dateCreation'])
             ->setUser($dataFixture['user']);
@@ -129,13 +129,13 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
 
         $hydratorMock->expects($this->once())
             ->method('hydrate')
-            ->with($dataFixture, $message);
+            ->with($dataFixture, $entity);
 
         $this->setInaccessiblePropertyValue('entityManager', $entityManagerMock);
         $this->setInaccessiblePropertyValue('hydrator', $hydratorMock);
 
-        $this->instance->hydrate($dataFixture,$message);
-        //$this->assertEquals($message, $messageAsItShouldBeAtTheEnd);
+        $this->instance->hydrate($dataFixture,$entity);
+        $this->assertEquals($entity, $entityAsItShouldBeAtTheEnd);
     }
 
     /**
@@ -144,18 +144,18 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
     public function testUpdate()
     {
 
-        $message = new Message();
-        $user = new User();
+        $entity = new Message();
+        $subEntity = new User();
 
         $data =
             [
                 'id' => 1287,
                 'content' => 'kzfoznfzlkenf',
                 'date' => new \DateTime('now'),
-                'user' => $user
+                'user' => $subEntity
             ];
 
-        $message
+        $entity
             ->setId($data['id'])
             ->setContent($data['content'])
             ->setDateCreation($data['date'])
@@ -166,11 +166,11 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
                 'id' => 1287,
                 'content' => 'nouveau contenu nouveau !',
                 'date' => new \DateTime('now'),
-                'user' => $user
+                'user' => $subEntity
             ];
 
-        $newMessage = clone $message;
-        $newMessage
+        $newEntity = clone $entity;
+        $newEntity
             ->setContent($newData['content']);
 
         $this->instance = $this->getMockFromArray('Mur\Service\MessageManager', false,
@@ -178,12 +178,12 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
 
                 'hydrate' =>
                     [
-                        'with' => [$newData, $message],
+                        'with' => [$newData, $entity],
 
                     ],
                 'record' =>
                     [
-                        'with' => $message
+                        'with' => $entity
                     ]
 
 
@@ -198,7 +198,7 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
         $this->setInaccessiblePropertyValue('hydrator', $hydratorMock);
         $this->setInaccessiblePropertyValue('entityManager', $entityManagerMock);
 
-        $this->assertTrue($this->instance->update($newData, $message));
+        $this->assertTrue($this->instance->update($newData, $entity));
 
     }
 
