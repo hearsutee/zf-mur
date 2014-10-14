@@ -121,34 +121,21 @@ class DoctrineObjectManagerTraitTest extends PhpunitTestCase
             ->setDateCreation($dataFixture['dateCreation'])
             ->setUser($dataFixture['user']);
 
-
         $entityManagerMock = $this->getMockFromArray('Doctrine\ORM\EntityManager', false,
             []);
 
-        $hydratorMock = $this->getMock('DoctrineModule\Stdlib\Hydrator\DoctrineObject', [],
-            [$entityManagerMock]);
+        $hydratorMock = $this->getMock('DoctrineModule\Stdlib\Hydrator\DoctrineObject',
+            [], [$entityManagerMock]);
 
         $hydratorMock->expects($this->once())
             ->method('hydrate')
             ->with($dataFixture, $message);
 
-
-        $this->instance = $this->getMockFromArray('Mur\Service\MessageManager', false,
-            [
-                'getHydrator' =>
-                    [
-                        'will' => $this->returnValue($hydratorMock)
-
-                    ],
-            ]);
-
         $this->setInaccessiblePropertyValue('entityManager', $entityManagerMock);
         $this->setInaccessiblePropertyValue('hydrator', $hydratorMock);
 
-        $this->instance->hydrate($dataFixture, $message);
-
+        $this->instance->hydrate($dataFixture,$message);
         $this->assertEquals($message, $messageAsItShouldBeAtTheEnd);
-
     }
 
     /**

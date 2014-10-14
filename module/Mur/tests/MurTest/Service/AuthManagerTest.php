@@ -130,13 +130,14 @@ class AuthManagerTest extends PhpunitTestCase
                 'username' => 'good',
                 'password' => 'good'
             ];
+
         $adapterMock =  $this->getMockFromArray('\stdClass', false,
             [
 
                 'setIdentityValue' => [
                     'with' => $data['username'],
                 ],
-                'setCredentialValue' =>[
+                'setCredentialValue' => [
                     'with' => $data['password'],
                 ]
 
@@ -152,13 +153,13 @@ class AuthManagerTest extends PhpunitTestCase
             ]);
 
         $authResultMock = $this->getMockFromArray('\stdClass', false,
-        [
+            [
 
-            'isValid' => [
-                'will' => $this->returnValue(true)
-            ],
-            'getIdentity' => [],
-        ]);
+                'isValid' => [
+                    'will' => $this->returnValue(true)
+                ],
+                'getIdentity' => [],
+            ]);
 
         $authServiceMock = $this->getMockFromArray('Zend\Authentication\AuthenticationService', false,
             [
@@ -168,7 +169,7 @@ class AuthManagerTest extends PhpunitTestCase
                     'will' => $this->returnValue($adapterMock)
                 ],
 
-                'authenticate' =>[
+                'authenticate' => [
                     'will' => $this->returnValue($authResultMock)
                 ],
 
@@ -180,11 +181,8 @@ class AuthManagerTest extends PhpunitTestCase
             ]);
 
 
-
         $this->setInaccessiblePropertyValue('authService', $authServiceMock);
         $this->assertTrue($this->instance->login($data));
-
-
 
 
     }
@@ -198,13 +196,13 @@ class AuthManagerTest extends PhpunitTestCase
                 'password' => 'wrong'
             ];
 
-        $adapterMock =  $this->getMockFromArray('\stdClass', false,
+        $adapterMock = $this->getMockFromArray('\stdClass', false,
             [
 
                 'setIdentityValue' => [
                     'with' => $data['username'],
                 ],
-                'setCredentialValue' =>[
+                'setCredentialValue' => [
                     'with' => $data['password'],
                 ]
 
@@ -227,12 +225,11 @@ class AuthManagerTest extends PhpunitTestCase
                     'will' => $this->returnValue($adapterMock)
                 ],
 
-                'authenticate' =>[
+                'authenticate' => [
                     'will' => $this->returnValue($authResultMock)
                 ],
 
             ]);
-
 
 
         $this->setInaccessiblePropertyValue('authService', $authServiceMock);
@@ -247,9 +244,10 @@ class AuthManagerTest extends PhpunitTestCase
 
         $storageMock = $this->getMockFromArray('\stdClass', false,
             [
-                'clear' => [
+                'clear' =>
+                    [
 
-                ],
+                    ],
             ]);
 
         $authServiceMock = $this->getMockFromArray('Zend\Authentication\AuthenticationService', false,
